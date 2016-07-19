@@ -113,6 +113,7 @@ public class CamTestActivity extends Activity {
 		if (trainerHandle != null){
 			JPCNNLibrary.INSTANCE.jpcnn_destroy_trainer(trainerHandle);
 		}
+		//1.create trainer
 		trainerHandle = JPCNNLibrary.INSTANCE.jpcnn_create_trainer();
 		posPreC = 0;
 		state = state.ePositiveLearning;
@@ -300,32 +301,11 @@ public class CamTestActivity extends Activity {
 		
 	    Pointer predictionsValuesPointer = predictionsValuesRef.getValue(); 
 	    final int predictionsLength = predictionsLengthRef.getValue();
-	    //Pointer predictionsNamesPointer = predictionsNamesRef.getValue();
-	    //final int predictionsNamesLength = predictionsNamesLengthRef.getValue();
 
         System.err.println(String.format("predictionsLength = %d", predictionsLength));
 
 	    float[] predictionsValues = predictionsValuesPointer.getFloatArray(0, predictionsLength);
-	    //Pointer[] predictionsNames = predictionsNamesPointer.getPointerArray(0);
-
-		//Send predictions to predictionHandler
 		predictionHandler(predictionsValuesPointer, predictionsLength);
-		/*
-		ArrayList<PredictionLabel> foundLabels = new ArrayList<PredictionLabel>();
-	    for (int index = 0; index < predictionsLength; index += 1) {
-	    	final float predictionValue = predictionsValues[index];
-	    	if (predictionValue > 0.05f) {
-	    		String name = predictionsNames[index].getString(0);
-	            System.err.println(String.format("%s = %f", name, predictionValue));	    		
-	            PredictionLabel label = new PredictionLabel(name, predictionValue);
-	            foundLabels.add(label);
-	    	}
-	    }
-	    Collections.sort(foundLabels);
-	    String labelsText = "";
-	    for (PredictionLabel label : foundLabels) {
-	    	labelsText += String.format("%s - %.2f\n", label.name, label.predictionValue);
-	    }*/
 		switch(state){
 			case eWaiting:
 				break;
@@ -384,9 +364,7 @@ public class CamTestActivity extends Activity {
         }
     }
 
-	public void process(){
 
-	}
 
 	public void copy(File src, File dst) throws IOException {
 		InputStream in = new FileInputStream(src);

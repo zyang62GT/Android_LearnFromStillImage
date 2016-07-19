@@ -61,12 +61,11 @@ public class LearnActivity extends Activity {
         eNegativeLearning,
     };
 
-    private static final String TAG = "CamTestActivity";
+
     Preview preview;
     Button buttonClick;
     TextView labelsView;
-    Camera camera;
-    String fileName;
+    String DirectoryName;
     Activity act;
     Context ctx;
 
@@ -115,6 +114,8 @@ public class LearnActivity extends Activity {
         trainerHandle = JPCNNLibrary.INSTANCE.jpcnn_create_trainer();
         posPreC = 0;
         state = state.ePositiveLearning;
+        //load and process positive learning images here
+
     }
 
     public void startNegW(){
@@ -124,6 +125,21 @@ public class LearnActivity extends Activity {
     public void startNegL(){
         negPreC = 0;
         state = state.eNegativeLearning;
+        //load and process negative learning images here
+    }
+
+
+
+
+
+
+
+    public File getDir(String albumName) {
+        File file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS),albumName);
+        if (!file.mkdirs()) {
+            Log.e("LOG_TAG", "Directory not created");
+        }
+        return file;
     }
 
     public void startPre(){
@@ -150,28 +166,13 @@ public class LearnActivity extends Activity {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        if(camera != null) {
-            camera.stopPreview();
-            preview.setCamera(null);
-            camera.release();
-            camera = null;
-        }
+
+        finish();
+
 
         this.onDestroy();
     }
 
-
-
-
-
-
-    public File getDir(String albumName) {
-        File file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS),albumName);
-        if (!file.mkdirs()) {
-            Log.e("LOG_TAG", "Directory not created");
-        }
-        return file;
-    }
 
 
     @Override
@@ -185,7 +186,10 @@ public class LearnActivity extends Activity {
         setContentView(R.layout.activity_learn);
 
         Intent intent = this.getIntent();
-        predictorName = intent.getStringExtra(NameActivity.EXTRA_MESSAGE);
+        predictorName = intent.getStringExtra(DirectoryActivity.EXTRA_MESSAGE);
+        predictorName+="PP";
+
+        DirectoryName = intent.getStringExtra(DirectoryActivity.EXTRA_MESSAGE);
 
         preview = new Preview(this, (SurfaceView)findViewById(R.id.surfaceView));
         preview.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT));
@@ -198,54 +202,14 @@ public class LearnActivity extends Activity {
         initDeepBelief();
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        //      preview.camera = Camera.open();
-        camera = Camera.open();
-        camera.startPreview();
-        preview.setCamera(camera);
-        camera.setPreviewCallback(previewCallback);
-    }
 
-    @Override
-    protected void onPause() {
-        if(camera != null) {
-            camera.stopPreview();
-            preview.setCamera(null);
-            camera.release();
-            camera = null;
-        }
-        super.onPause();
-    }
 
-    @Override
-    protected void onDestroy(){
-        if(camera != null) {
-            camera.stopPreview();
-            preview.setCamera(null);
-            camera.release();
-            camera = null;
-        }
-        super.onDestroy();
-    }
 
-    private void resetCam() {
-        camera.startPreview();
-        preview.setCamera(camera);
-    }
 
-    PreviewCallback previewCallback = new PreviewCallback() {
-        public void onPreviewFrame(byte[] data, Camera camera) {
-            Size previewSize = camera.getParameters().getPreviewSize();
-            YuvImage yuvimage=new YuvImage(data, ImageFormat.NV21, previewSize.width, previewSize.height, null);
-            ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            yuvimage.compressToJpeg(new Rect(0, 0, previewSize.width, previewSize.height), 80, baos);
-            byte[] jdata = baos.toByteArray();
-            Bitmap bmp = BitmapFactory.decodeByteArray(jdata, 0, jdata.length);
-            classifyBitmap(bmp);
-        }
-    };
+
+
+
+
 
     void initDeepBelief() {
         AssetManager am = ctx.getAssets();
@@ -259,24 +223,6 @@ public class LearnActivity extends Activity {
         //classifyBitmap(lenaBitmap);
     }
 
-    private class PredictionLabel implements Comparable<PredictionLabel> {
-        public String name;
-        public float predictionValue;
-        public PredictionLabel(String inName, float inPredictionValue) {
-            this.name = inName;
-            this.predictionValue = inPredictionValue;
-        }
-        public int compareTo(PredictionLabel anotherInstance) {
-            final float diff = (this.predictionValue - anotherInstance.predictionValue);
-            if (diff < 0.0f) {
-                return 1;
-            } else if (diff > 0.0f) {
-                return -1;
-            } else {
-                return 0;
-            }
-        }
-    };
 
     void classifyBitmap(Bitmap bitmap) {
         final int width = bitmap.getWidth();
