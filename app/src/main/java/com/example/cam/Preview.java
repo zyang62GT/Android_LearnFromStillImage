@@ -8,6 +8,10 @@ import java.io.IOException;
 import java.util.List;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
 import android.hardware.Camera;
 import android.hardware.Camera.Size;
 import android.util.Log;
@@ -34,6 +38,13 @@ class Preview extends ViewGroup implements SurfaceHolder.Callback {
         mHolder = mSurfaceView.getHolder();
         mHolder.addCallback(this);
         mHolder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
+    }
+
+    public void DrawBm(Canvas canvas, Bitmap bm) {
+        draw(canvas);
+        //Bitmap icon = BitmapFactory.decodeResource(getResources(), R.drawable.icon);
+        canvas.drawColor(Color.BLACK);
+        canvas.drawBitmap(bm, 10, 10, new Paint());
     }
 
     public void setCamera(Camera camera) {

@@ -12,8 +12,8 @@
         android:layout_height="fill_parent"
         android:layout_weight="1" >
 
-        <SurfaceView
-            android:id="@+id/surfaceView"
+        <ImageView
+            android:id="@+id/imageView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
@@ -34,4 +34,4 @@
     </FrameLayout>
 
 </LinearLayout>
-<!-- From: file:/C:/Users/zyang_000/Documents/GitHub/AndroidDeepBelief/app/src/main/res/layout/activity_learn.xml -->
+<!-- From: file:/C:/Users/zyang_000/Documents/GitHub/LearnFromStillImage/app/src/main/res/layout/activity_learn.xml -->

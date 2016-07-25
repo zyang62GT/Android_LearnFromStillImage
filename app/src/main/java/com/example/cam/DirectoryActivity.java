@@ -15,13 +15,13 @@ import java.io.File;
 public class DirectoryActivity extends Activity {
     public final static String EXTRA_MESSAGE = "com.example.cam.MESSAGE";
 
-    String path = Environment.getExternalStorageDirectory().toString()+"/Documents";
+    String path = Environment.getExternalStorageDirectory().toString()+"/Pictures";
     //Log.d("Files", "Path: " + path);
     File f = new File(path);
     File file[] = f.listFiles();
     int len = file.length;
     String wee[] = new String[len];
-    Spinner spinner = (Spinner) findViewById(R.id.directory_spinner);
+    Spinner spinner;
 
 
 
@@ -33,6 +33,8 @@ public class DirectoryActivity extends Activity {
         setContentView(R.layout.activity_directory);
 
         convertFiletoString();
+
+        spinner = (Spinner) findViewById(R.id.directory_spinner);
 
 
         ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(

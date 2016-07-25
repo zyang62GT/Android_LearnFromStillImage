@@ -42,6 +42,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.jetpac.deepbelief.DeepBelief;
@@ -52,6 +53,7 @@ import com.sun.jna.ptr.PointerByReference;
 
 public class LearnActivity extends Activity {
     String predictorName;
+    File f;
 
 
     public enum predictionState{
@@ -115,17 +117,51 @@ public class LearnActivity extends Activity {
         posPreC = 0;
         state = state.ePositiveLearning;
         //load and process positive learning images here
+        String path = Environment.getExternalStorageDirectory().toString()+"/Pictures/"+DirectoryName;
+        f = new File(path);
+        File file[] = f.listFiles();
+        kPosPreT = file.length;
+        for(int i=0;i<file.length;i++){
+            Log.i("pos", path+"/"+file[i].getName().toString());
+            //Bitmap bm = getBitmapFromAsset(file[i].getName().toString());
+            //classifyBitmap(bm);
+            File imgFile = new  File(path+"/"+file[i].getName().toString());
+            if(imgFile.exists()){
+                Bitmap bm = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
+                ImageView myImage = (ImageView) findViewById(R.id.imageView);
+                myImage.setImageBitmap(bm);
+                classifyBitmap(bm);
+            }
+        }
+
 
     }
 
     public void startNegW(){
         state = state.eNegativeWaiting;
+        triggerNextState();
     }
 
     public void startNegL(){
         negPreC = 0;
         state = state.eNegativeLearning;
         //load and process negative learning images here
+        String path = Environment.getExternalStorageDirectory().toString()+"/Pictures/"+DirectoryName;
+        f = new File(path);
+        File file[] = f.listFiles();
+        kNegPreT = file.length;
+        for(int i=0;i<file.length;i++){
+            Log.i("neg", path+"/"+file[i].getName().toString());
+            //Bitmap bm = getBitmapFromAsset(file[i].getName().toString());
+            //classifyBitmap(bm);
+            File imgFile = new  File(path+"/"+file[i].getName().toString());
+            if(imgFile.exists()){
+                Bitmap bm = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
+                ImageView myImage = (ImageView) findViewById(R.id.imageView);
+                myImage.setImageBitmap(bm);
+                classifyBitmap(bm);
+            }
+        }
     }
 
 
@@ -135,7 +171,7 @@ public class LearnActivity extends Activity {
 
 
     public File getDir(String albumName) {
-        File file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS),albumName);
+        File file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES),albumName);
         if (!file.mkdirs()) {
             Log.e("LOG_TAG", "Directory not created");
         }
@@ -188,13 +224,11 @@ public class LearnActivity extends Activity {
         Intent intent = this.getIntent();
         predictorName = intent.getStringExtra(DirectoryActivity.EXTRA_MESSAGE);
         predictorName+="PP";
+        Log.i("String", predictorName);
 
         DirectoryName = intent.getStringExtra(DirectoryActivity.EXTRA_MESSAGE);
 
-        preview = new Preview(this, (SurfaceView)findViewById(R.id.surfaceView));
-        preview.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT));
-        ((FrameLayout) findViewById(R.id.preview)).addView(preview);
-        preview.setKeepScreenOn(true);
+
 
         labelsView = (TextView) findViewById(R.id.labelsView);
         labelsView.setText("");
@@ -219,8 +253,8 @@ public class LearnActivity extends Activity {
         copyAsset(am, baseFileName, networkFile);
         networkHandle = JPCNNLibrary.INSTANCE.jpcnn_create_network(networkFile);
 
-        //Bitmap lenaBitmap = getBitmapFromAsset("lena.png");
-        //classifyBitmap(lenaBitmap);
+        Bitmap lenaBitmap = getBitmapFromAsset("lena.png");
+        classifyBitmap(lenaBitmap);
     }
 
 
