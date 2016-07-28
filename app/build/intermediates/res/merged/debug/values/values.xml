@@ -139,7 +139,12 @@
     <string name="abc_shareactionprovider_share_with_application">Share with %s</string>
     <!-- From: file:/C:/Users/zyang_000/Documents/GitHub/LearnFromStillImage/app/src/main/res/values/strings.xml -->
     <eat-comment/>
+    <string name="album_name">CameraSample</string>
     <string name="app_name">LearnFromStillImages</string>
+    <string name="btnIntend">Take (big) Picture</string>
+    <string name="btnIntendS">Take (small) Picture</string>
+    <string name="btnIntendV">Take Video</string>
+    <string name="cannot">Cannot</string>
     <string name="hello">Hello World, CamTestActivity!</string>
     <!-- From: file:/C:/Users/zyang_000/Documents/GitHub/LearnFromStillImage/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/19.1.0/res/values/values.xml -->
     <eat-comment/>

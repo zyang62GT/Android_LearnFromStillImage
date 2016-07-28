@@ -15,12 +15,12 @@ public class StartActivity extends Activity {
     }
 
     public void learnClick(View view){
-        Intent intent = new Intent(this, NameActivity.class);
+        Intent intent = new Intent(this, DirectoryActivity.class);
         startActivity(intent);
     }
 
     public void predictClick(View view){
-        Intent intent = new Intent(this,PredictActivity.class);
+        Intent intent = new Intent(this,PhotoIntentActivity.class);
         startActivity(intent);
 
     }
