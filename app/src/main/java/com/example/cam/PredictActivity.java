@@ -71,15 +71,6 @@ public class PredictActivity extends Activity {
     Pointer networkHandle = null;
     Pointer[] predictors = new Pointer[10];
 
-    //Limit values for predictions
-    int kPosPreT = 50;
-    int kNegPreT = 50;
-    int kElePerPre = 4096;
-
-    float kMinSecBetPings = .05f;
-
-    int posPreC;
-    int negPreC;
 
     float[] preVals = new float[10];
     String labelsText = "";

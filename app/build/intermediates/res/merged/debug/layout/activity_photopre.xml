@@ -13,14 +13,19 @@
             android:layout_height="wrap_content"
             android:layout_width="0dp"
             android:layout_weight="1" />
-        <Button android:text="@string/btnIntendS" android:id="@+id/btnIntendS"
-            android:layout_height="wrap_content"
-            android:layout_width="0dp"
-            android:layout_weight="1" />
+
         <Button android:text="@string/btnIntendV" android:id="@+id/btnIntendV"
             android:layout_height="wrap_content"
             android:layout_width="0dp"
             android:layout_weight="1" />
+
+        <TextView
+            android:id="@+id/labelsView"
+            android:layout_width="262dp"
+            android:layout_height="191dp"
+            android:layout_gravity="center_horizontal"
+            android:text="TextView" />
+
     </LinearLayout>
     <ImageView
         android:layout_height="wrap_content"

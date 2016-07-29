@@ -5,21 +5,38 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
+import android.content.res.AssetManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.hardware.Camera;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
+import android.view.SurfaceView;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.VideoView;
 
+import com.jetpac.deepbelief.DeepBelief;
+import com.sun.jna.Pointer;
+import com.sun.jna.ptr.IntByReference;
+import com.sun.jna.ptr.PointerByReference;
+
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.nio.ByteBuffer;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -47,6 +64,29 @@ public class PhotoIntentActivity extends Activity {
 	private static final String JPEG_FILE_SUFFIX = ".jpg";
 
 	private AlbumStorageDirFactory mAlbumStorageDirFactory = null;
+
+	String path = Environment.getExternalStorageDirectory().toString()+"/Documents/newFile";
+	//Log.d("Files", "Path: " + path);
+	File f = new File(path);
+	File file[] = f.listFiles();
+
+
+	private static final String TAG = "PredictActivity";
+	Preview preview;
+	Button buttonClick;
+	TextView labelsView;
+	Camera camera;
+	String fileName;
+	Activity act;
+	Context ctx;
+
+	//Pointer varaibles for jpcnn api
+	Pointer networkHandle = null;
+	Pointer[] predictors = new Pointer[10];
+
+
+	float[] preVals = new float[10];
+	String labelsText = "";
 
 	
 	/* Photo album for this application */
@@ -127,9 +167,144 @@ public class PhotoIntentActivity extends Activity {
 		
 		/* Associate the Bitmap to the ImageView */
 		mImageView.setImageBitmap(bitmap);
+		//process predictions here
+		classifyBitmap(bitmap);
 		mVideoUri = null;
 		mImageView.setVisibility(View.VISIBLE);
 		mVideoView.setVisibility(View.INVISIBLE);
+	}
+
+	void initDeepBelief() {
+		AssetManager am = ctx.getAssets();
+		String baseFileName = "jetpac.ntwk";
+		String dataDir = ctx.getFilesDir().getAbsolutePath();
+		String networkFile = dataDir + "/" + baseFileName;
+		copyAsset(am, baseFileName, networkFile);
+		networkHandle = DeepBelief.JPCNNLibrary.INSTANCE.jpcnn_create_network(networkFile);
+
+	}
+
+	private static boolean copyAsset(AssetManager assetManager,
+									 String fromAssetPath, String toPath) {
+		InputStream in = null;
+		OutputStream out = null;
+		try {
+			in = assetManager.open(fromAssetPath);
+			new File(toPath).createNewFile();
+			out = new FileOutputStream(toPath);
+			copyFile(in, out);
+			in.close();
+			in = null;
+			out.flush();
+			out.close();
+			out = null;
+			return true;
+		} catch(Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+	}
+
+	private static void copyFile(InputStream in, OutputStream out) throws IOException {
+		byte[] buffer = new byte[1024];
+		int read;
+		while((read = in.read(buffer)) != -1){
+			out.write(buffer, 0, read);
+		}
+	}
+
+	void classifyBitmap(Bitmap bitmap) {
+		final int width = bitmap.getWidth();
+		final int height = bitmap.getHeight();
+		final int pixelCount = (width * height);
+		final int bytesPerPixel = 4;
+		final int byteCount = (pixelCount * bytesPerPixel);
+		ByteBuffer buffer = ByteBuffer.allocate(byteCount);
+		bitmap.copyPixelsToBuffer(buffer);
+		byte[] pixels = buffer.array();
+		Pointer imageHandle = DeepBelief.JPCNNLibrary.INSTANCE.jpcnn_create_image_buffer_from_uint8_data(pixels, width, height, 4, (4 * width), 0, 0);
+
+		PointerByReference predictionsValuesRef = new PointerByReference();
+		IntByReference predictionsLengthRef = new IntByReference();
+		PointerByReference predictionsNamesRef = new PointerByReference();
+		IntByReference predictionsNamesLengthRef = new IntByReference();
+		long startT = System.currentTimeMillis();
+		DeepBelief.JPCNNLibrary.INSTANCE.jpcnn_classify_image(
+				networkHandle,
+				imageHandle,
+				2, //SAMPLE FLAGS: 0 = DEFAULT(CENTERED), 1 = MULTISAMPLE, 2 = RANDOM_SAMPLE
+				-2, //LAYEROFFSET
+				predictionsValuesRef,
+				predictionsLengthRef,
+				predictionsNamesRef,
+				predictionsNamesLengthRef);
+		long stopT = System.currentTimeMillis();
+		float duration = (float)(stopT-startT) / 1000.0f;
+		System.err.println("jpcnn_classify_image() took " + duration + " seconds.");
+
+		DeepBelief.JPCNNLibrary.INSTANCE.jpcnn_destroy_image_buffer(imageHandle);
+
+		Pointer predictionsValuesPointer = predictionsValuesRef.getValue();
+		final int predictionsLength = predictionsLengthRef.getValue();
+		//Pointer predictionsNamesPointer = predictionsNamesRef.getValue();
+		//final int predictionsNamesLength = predictionsNamesLengthRef.getValue();
+
+		System.err.println(String.format("predictionsLength = %d", predictionsLength));
+
+		float[] predictionsValues = predictionsValuesPointer.getFloatArray(0, predictionsLength);
+		//Pointer[] predictionsNames = predictionsNamesPointer.getPointerArray(0);
+
+		//Send predictions to predictionHandler
+		predictionHandler(predictionsValuesPointer, predictionsLength);
+		//PredictionLabel label = new PredictionLabel(file[0].getName().toString(),preVal);
+		//labelsText = String.format("%s - %.2f\n",label.name, label.predictionValue);
+		//labelsText += String.format("%s - %.2f\n",label2.name, label2.predictionValue);
+		labelsText = "";
+		for(int i=0;i<10;i++){
+			if(i>=file.length) break;
+			PredictionLabel label = new PredictionLabel(file[i].getName().toString(),preVals[i]);
+
+			labelsText += String.format("%s - %.2f\n",label.name, label.predictionValue);
+		}
+		labelsView.setText(labelsText);
+	}
+
+	private class PredictionLabel implements Comparable<PredictionLabel> {
+		public String name;
+		public float predictionValue;
+		public PredictionLabel(String inName, float inPredictionValue) {
+			this.name = inName;
+			this.predictionValue = inPredictionValue;
+		}
+		public int compareTo(PredictionLabel anotherInstance) {
+			final float diff = (this.predictionValue - anotherInstance.predictionValue);
+			if (diff < 0.0f) {
+				return 1;
+			} else if (diff > 0.0f) {
+				return -1;
+			} else {
+				return 0;
+			}
+		}
+	};
+
+	public void startPre(){
+
+
+		for(int i=0;i<10;i++){
+			if(i>=file.length) break;
+			predictors[i] = DeepBelief.JPCNNLibrary.INSTANCE.jpcnn_load_predictor(path + '/' + file[i].getName().toString());
+		}
+
+	}
+
+	public void predictionHandler (Pointer predictions,int predictionsLength){
+
+		for(int i=0;i<10;i++){
+			if(i>=file.length) break;
+			preVals[i] = DeepBelief.JPCNNLibrary.INSTANCE.jpcnn_predict(predictors[i],predictions,predictionsLength);
+		}
+
 	}
 
 	private void galleryAddPic() {
@@ -206,13 +381,7 @@ public class PhotoIntentActivity extends Activity {
 		}
 	};
 
-	Button.OnClickListener mTakePicSOnClickListener =
-		new Button.OnClickListener() {
-		@Override
-		public void onClick(View v) {
-			dispatchTakePictureIntent(ACTION_TAKE_PHOTO_S);
-		}
-	};
+
 
 	Button.OnClickListener mTakeVidOnClickListener =
 		new Button.OnClickListener() {
@@ -235,22 +404,17 @@ public class PhotoIntentActivity extends Activity {
 
 
 		Button picBtn = (Button) findViewById(R.id.btnIntend);
-		setBtnListenerOrDisable( 
-				picBtn, 
+		setBtnListenerOrDisable(
+				picBtn,
 				mTakePicOnClickListener,
 				MediaStore.ACTION_IMAGE_CAPTURE
 		);
 
-		Button picSBtn = (Button) findViewById(R.id.btnIntendS);
-		setBtnListenerOrDisable( 
-				picSBtn, 
-				mTakePicSOnClickListener,
-				MediaStore.ACTION_IMAGE_CAPTURE
-		);
+
 
 		Button vidBtn = (Button) findViewById(R.id.btnIntendV);
-		setBtnListenerOrDisable( 
-				vidBtn, 
+		setBtnListenerOrDisable(
+				vidBtn,
 				mTakeVidOnClickListener,
 				MediaStore.ACTION_VIDEO_CAPTURE
 		);
@@ -260,6 +424,17 @@ public class PhotoIntentActivity extends Activity {
 		} else {
 			mAlbumStorageDirFactory = new BaseAlbumDirFactory();
 		}
+		ctx = this;
+		act = this;
+
+
+
+
+		labelsView = (TextView) findViewById(R.id.labelsView);
+		labelsView.setText("");
+
+		initDeepBelief();
+		startPre();
 	}
 
 	@Override

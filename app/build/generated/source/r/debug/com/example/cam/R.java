@@ -831,8 +831,7 @@ containing a value of this type.
         public static final int always=0x7f0b0013;
         public static final int beginning=0x7f0b000f;
         public static final int btnIntend=0x7f0b0044;
-        public static final int btnIntendS=0x7f0b0045;
-        public static final int btnIntendV=0x7f0b0046;
+        public static final int btnIntendV=0x7f0b0045;
         public static final int checkbox=0x7f0b002d;
         public static final int collapseActionView=0x7f0b0014;
         public static final int default_activity_button=0x7f0b0028;
@@ -851,11 +850,11 @@ containing a value of this type.
         public static final int ifRoom=0x7f0b0015;
         public static final int image=0x7f0b0027;
         public static final int imageView=0x7f0b0040;
-        public static final int imageView1=0x7f0b0047;
+        public static final int imageView1=0x7f0b0046;
         public static final int labelsView=0x7f0b0041;
-        public static final int labelsView2=0x7f0b004e;
+        public static final int labelsView2=0x7f0b004d;
         public static final int layout=0x7f0b003e;
-        public static final int learnButton=0x7f0b004a;
+        public static final int learnButton=0x7f0b0049;
         public static final int listMode=0x7f0b0006;
         public static final int list_item=0x7f0b0029;
         public static final int middle=0x7f0b0011;
@@ -864,9 +863,9 @@ containing a value of this type.
         public static final int never=0x7f0b0016;
         public static final int none=0x7f0b0012;
         public static final int normal=0x7f0b0007;
-        public static final int predictButton=0x7f0b004b;
+        public static final int predictButton=0x7f0b004a;
         public static final int preview=0x7f0b003f;
-        public static final int preview2=0x7f0b004c;
+        public static final int preview2=0x7f0b004b;
         public static final int progress_circular=0x7f0b0004;
         public static final int progress_horizontal=0x7f0b0005;
         public static final int radio=0x7f0b002f;
@@ -886,14 +885,14 @@ containing a value of this type.
         public static final int showTitle=0x7f0b000d;
         public static final int split_action_bar=0x7f0b001e;
         public static final int submit_area=0x7f0b0039;
-        public static final int surfaceView=0x7f0b0049;
-        public static final int surfaceView2=0x7f0b004d;
+        public static final int surfaceView=0x7f0b0048;
+        public static final int surfaceView2=0x7f0b004c;
         public static final int tabMode=0x7f0b0008;
         public static final int title=0x7f0b002b;
         public static final int top_action_bar=0x7f0b0020;
         public static final int up=0x7f0b0021;
         public static final int useLogo=0x7f0b000e;
-        public static final int videoView1=0x7f0b0048;
+        public static final int videoView1=0x7f0b0047;
         public static final int withText=0x7f0b0017;
     }
     public static final class integer {
@@ -950,10 +949,9 @@ containing a value of this type.
         public static final int album_name=0x7f05000d;
         public static final int app_name=0x7f05000e;
         public static final int btnIntend=0x7f05000f;
-        public static final int btnIntendS=0x7f050010;
-        public static final int btnIntendV=0x7f050011;
-        public static final int cannot=0x7f050012;
-        public static final int hello=0x7f050013;
+        public static final int btnIntendV=0x7f050010;
+        public static final int cannot=0x7f050011;
+        public static final int hello=0x7f050012;
     }
     public static final class style {
         public static final int TextAppearance_AppCompat_Base_CompactMenu_Dialog=0x7f080041;

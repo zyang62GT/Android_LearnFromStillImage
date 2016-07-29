@@ -142,7 +142,6 @@
     <string name="album_name">CameraSample</string>
     <string name="app_name">LearnFromStillImages</string>
     <string name="btnIntend">Take (big) Picture</string>
-    <string name="btnIntendS">Take (small) Picture</string>
     <string name="btnIntendV">Take Video</string>
     <string name="cannot">Cannot</string>
     <string name="hello">Hello World, CamTestActivity!</string>
