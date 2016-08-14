@@ -14,28 +14,107 @@
             android:layout_width="0dp"
             android:layout_weight="1" />
 
-        <Button android:text="@string/btnIntendV" android:id="@+id/btnIntendV"
+        <Button android:text="@string/btnIntendG" android:id="@+id/btnIntendG"
             android:layout_height="wrap_content"
             android:layout_width="0dp"
-            android:layout_weight="1" />
+            android:layout_weight="1"
+            android:onClick="galleryClick"/>
+
+        <Button android:text="XY" android:id="@+id/xyButton"
+            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:onClick="xyClick"/>
+
+
+
+
+
 
         <TextView
             android:id="@+id/labelsView"
-            android:layout_width="262dp"
-            android:layout_height="191dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:text="TextView" />
 
     </LinearLayout>
-    <ImageView
+
+    <LinearLayout
+        android:orientation="horizontal"
         android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        >
+        <Button android:text="W+" android:id="@+id/addWidth"
+            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:onClick="addWidthClick"/>
+
+        <Button android:text="W-" android:id="@+id/reduceWidth"
+            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:onClick="reduceWidthClick"/>
+
+        <Button android:text="H+" android:id="@+id/addHeight"
+            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:onClick="addHeightClick"/>
+
+        <Button android:text="H-" android:id="@+id/reduceHeight"
+            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:onClick="reduceHeightClick"/>
+
+    </LinearLayout>
+
+
+
+    <com.example.cam.DragLayer
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:launcher="http://schemas.android.com/apk/res/com.android.launcher"
+
+        android:id="@+id/drag_layer"
+        android:layout_width="match_parent"
+        android:layout_weight="1"
+        android:layout_height="match_parent">
+
+
+        <ImageView
+            android:id="@+id/imageView1"
+            android:layout_weight="1"
+            android:paddingTop="16dp"
+            android:paddingBottom="16dp"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:id="@+id/Text1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="1"
+            android:background="@drawable/bg_rectangle_with_stroke_dash" />
+        <TextView
+            android:id="@+id/Text2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="2"
+            android:background="@drawable/bg_rectangle_with_stroke_dash" />
+
+
+    </com.example.cam.DragLayer>
+
+    <TextView
         android:layout_width="wrap_content"
-        android:visibility="visible"
-        android:id="@+id/imageView1" />
-    <VideoView
         android:layout_height="wrap_content"
-        android:layout_width="wrap_content"
-        android:visibility="invisible"
-        android:id="@+id/videoView1" />
+        android:id="@+id/Textbot"/>
+
+
+
+
+
 </LinearLayout>
-<!-- From: file:/C:/Users/zyang_000/Documents/GitHub/LearnFromStillImage/app/src/main/res/layout/activity_photopre.xml -->

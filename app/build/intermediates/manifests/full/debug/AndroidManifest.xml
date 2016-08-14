@@ -5,8 +5,8 @@
     android:versionName="1.0" >
 
     <uses-sdk
-        android:minSdkVersion="8"
-        android:targetSdkVersion="8" />
+        android:minSdkVersion="10"
+        android:targetSdkVersion="19" />
 
     <uses-feature
         android:name="android.hardware.camera"
@@ -19,6 +19,8 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
     <android:uses-permission android:name="android.permission.READ_PHONE_STATE" />
+
+    <uses-permission android:name="android.permission.VIBRATE" />
 
     <!--
 uses-permission android:name="android.permission.INTERNET" />
@@ -42,7 +44,6 @@ uses-permission android:name="android.permission.INTERNET" />
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.cam.NameActivity" />
         </activity>
-        <activity android:name="com.example.cam.PredictActivity" />
         <activity android:name="com.example.cam.DirectoryActivity" >
         </activity>
         <activity android:name="com.example.cam.PhotoIntentActivity" />

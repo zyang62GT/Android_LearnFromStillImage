@@ -15,6 +15,7 @@ public final class R {
         public static final int abc_slide_in_top=0x7f040003;
         public static final int abc_slide_out_bottom=0x7f040004;
         public static final int abc_slide_out_top=0x7f040005;
+        public static final int fade_in=0x7f040006;
     }
     public static final class attr {
         /** <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
@@ -450,6 +451,161 @@ theme attribute (in the form
 containing a value of this type.
          */
         public static final int queryHint=0x7f010061;
+        /** <p>Must be an integer value, such as "<code>100</code>".
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+         */
+        public static final int scv_animation_duration=0x7f01007e;
+        /** <p>Must be a boolean value, either "<code>true</code>" or "<code>false</code>".
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+         */
+        public static final int scv_animation_enabled=0x7f01007d;
+        /** <p>May be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
+or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
+<p>May be a color value, in the form of "<code>#<i>rgb</i></code>", "<code>#<i>argb</i></code>",
+"<code>#<i>rrggbb</i></code>", or "<code>#<i>aarrggbb</i></code>".
+         */
+        public static final int scv_background_color=0x7f010070;
+        /** <p>Must be a boolean value, either "<code>true</code>" or "<code>false</code>".
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+         */
+        public static final int scv_crop_enabled=0x7f01007b;
+        /** <p>Must be one of the following constant values.</p>
+<table>
+<colgroup align="left" />
+<colgroup align="left" />
+<colgroup align="left" />
+<tr><th>Constant</th><th>Value</th><th>Description</th></tr>
+<tr><td><code>fit_image</code></td><td>0</td><td></td></tr>
+<tr><td><code>ratio_4_3</code></td><td>1</td><td></td></tr>
+<tr><td><code>ratio_3_4</code></td><td>2</td><td></td></tr>
+<tr><td><code>square</code></td><td>3</td><td></td></tr>
+<tr><td><code>ratio_16_9</code></td><td>4</td><td></td></tr>
+<tr><td><code>ratio_9_16</code></td><td>5</td><td></td></tr>
+<tr><td><code>free</code></td><td>6</td><td></td></tr>
+<tr><td><code>custom</code></td><td>7</td><td></td></tr>
+<tr><td><code>circle</code></td><td>8</td><td></td></tr>
+<tr><td><code>circle_square</code></td><td>9</td><td></td></tr>
+</table>
+         */
+        public static final int scv_crop_mode=0x7f01006f;
+        /** <p>May be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
+or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
+<p>May be a color value, in the form of "<code>#<i>rgb</i></code>", "<code>#<i>argb</i></code>",
+"<code>#<i>rrggbb</i></code>", or "<code>#<i>aarrggbb</i></code>".
+         */
+        public static final int scv_frame_color=0x7f010072;
+        /** <p>Must be a dimension value, which is a floating point number appended with a unit such as "<code>14.5sp</code>".
+Available units are: px (pixels), dp (density-independent pixels), sp (scaled pixels based on preferred font size),
+in (inches), mm (millimeters).
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+         */
+        public static final int scv_frame_stroke_weight=0x7f010079;
+        /** <p>May be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
+or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
+<p>May be a color value, in the form of "<code>#<i>rgb</i></code>", "<code>#<i>argb</i></code>",
+"<code>#<i>rrggbb</i></code>", or "<code>#<i>aarrggbb</i></code>".
+         */
+        public static final int scv_guide_color=0x7f010074;
+        /** <p>Must be one of the following constant values.</p>
+<table>
+<colgroup align="left" />
+<colgroup align="left" />
+<colgroup align="left" />
+<tr><th>Constant</th><th>Value</th><th>Description</th></tr>
+<tr><td><code>show_always</code></td><td>1</td><td></td></tr>
+<tr><td><code>show_on_touch</code></td><td>2</td><td></td></tr>
+<tr><td><code>not_show</code></td><td>3</td><td></td></tr>
+</table>
+         */
+        public static final int scv_guide_show_mode=0x7f010075;
+        /** <p>Must be a dimension value, which is a floating point number appended with a unit such as "<code>14.5sp</code>".
+Available units are: px (pixels), dp (density-independent pixels), sp (scaled pixels based on preferred font size),
+in (inches), mm (millimeters).
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+         */
+        public static final int scv_guide_stroke_weight=0x7f01007a;
+        /** <p>May be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
+or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
+<p>May be a color value, in the form of "<code>#<i>rgb</i></code>", "<code>#<i>argb</i></code>",
+"<code>#<i>rrggbb</i></code>", or "<code>#<i>aarrggbb</i></code>".
+         */
+        public static final int scv_handle_color=0x7f010073;
+        /** <p>Must be a boolean value, either "<code>true</code>" or "<code>false</code>".
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+         */
+        public static final int scv_handle_shadow_enabled=0x7f01007f;
+        /** <p>Must be a dimension value, which is a floating point number appended with a unit such as "<code>14.5sp</code>".
+Available units are: px (pixels), dp (density-independent pixels), sp (scaled pixels based on preferred font size),
+in (inches), mm (millimeters).
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+         */
+        public static final int scv_handle_size=0x7f010076;
+        /** <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
+or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
+         */
+        public static final int scv_img_src=0x7f01006e;
+        /** <p>Must be a floating point value, such as "<code>1.2</code>".
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+         */
+        public static final int scv_initial_frame_scale=0x7f01007c;
+        /** <p>Must be a dimension value, which is a floating point number appended with a unit such as "<code>14.5sp</code>".
+Available units are: px (pixels), dp (density-independent pixels), sp (scaled pixels based on preferred font size),
+in (inches), mm (millimeters).
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+         */
+        public static final int scv_min_frame_size=0x7f010078;
+        /** <p>May be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
+or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
+<p>May be a color value, in the form of "<code>#<i>rgb</i></code>", "<code>#<i>argb</i></code>",
+"<code>#<i>rrggbb</i></code>", or "<code>#<i>aarrggbb</i></code>".
+         */
+        public static final int scv_overlay_color=0x7f010071;
+        /** <p>Must be a dimension value, which is a floating point number appended with a unit such as "<code>14.5sp</code>".
+Available units are: px (pixels), dp (density-independent pixels), sp (scaled pixels based on preferred font size),
+in (inches), mm (millimeters).
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+         */
+        public static final int scv_touch_padding=0x7f010077;
         /** <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
          */
@@ -813,87 +969,118 @@ containing a value of this type.
         public static final int abc_textfield_searchview_holo_light=0x7f020054;
         public static final int abc_textfield_searchview_right_holo_dark=0x7f020055;
         public static final int abc_textfield_searchview_right_holo_light=0x7f020056;
-        public static final int ic_launcher=0x7f020057;
+        public static final int android_app_on_play=0x7f020057;
+        public static final int bg_rectangle_with_stroke_dash=0x7f020058;
+        public static final int double_star=0x7f020059;
+        public static final int ic_launcher=0x7f02005a;
+        public static final int photo1=0x7f02005b;
+        public static final int photo2=0x7f02005c;
+        public static final int test_bg1=0x7f02005d;
+        public static final int test_bg2=0x7f02005e;
     }
     public static final class id {
-        public static final int action_bar=0x7f0b001c;
+        public static final int Image1=0x7f0b0064;
+        public static final int Image2=0x7f0b0065;
+        public static final int Text1=0x7f0b005a;
+        public static final int Text2=0x7f0b005b;
+        public static final int Textbot=0x7f0b005c;
+        public static final int action_bar=0x7f0b0029;
         public static final int action_bar_activity_content=0x7f0b0000;
-        public static final int action_bar_container=0x7f0b001b;
-        public static final int action_bar_overlay_layout=0x7f0b001f;
-        public static final int action_bar_root=0x7f0b001a;
-        public static final int action_bar_subtitle=0x7f0b0023;
-        public static final int action_bar_title=0x7f0b0022;
-        public static final int action_context_bar=0x7f0b001d;
+        public static final int action_bar_container=0x7f0b0028;
+        public static final int action_bar_overlay_layout=0x7f0b002c;
+        public static final int action_bar_root=0x7f0b0027;
+        public static final int action_bar_subtitle=0x7f0b0030;
+        public static final int action_bar_title=0x7f0b002f;
+        public static final int action_context_bar=0x7f0b002a;
         public static final int action_menu_divider=0x7f0b0001;
         public static final int action_menu_presenter=0x7f0b0002;
-        public static final int action_mode_close_button=0x7f0b0024;
-        public static final int activity_chooser_view_content=0x7f0b0025;
+        public static final int action_mode_close_button=0x7f0b0031;
+        public static final int activity_chooser_view_content=0x7f0b0032;
+        public static final int addHeight=0x7f0b0056;
+        public static final int addWidth=0x7f0b0054;
         public static final int always=0x7f0b0013;
         public static final int beginning=0x7f0b000f;
-        public static final int btnIntend=0x7f0b0044;
-        public static final int btnIntendV=0x7f0b0045;
-        public static final int checkbox=0x7f0b002d;
+        public static final int btnIntend=0x7f0b0051;
+        public static final int btnIntendG=0x7f0b0052;
+        public static final int checkbox=0x7f0b003a;
+        public static final int circle=0x7f0b001a;
+        public static final int circle_square=0x7f0b001b;
         public static final int collapseActionView=0x7f0b0014;
-        public static final int default_activity_button=0x7f0b0028;
+        public static final int custom=0x7f0b001c;
+        public static final int default_activity_button=0x7f0b0035;
         public static final int dialog=0x7f0b0018;
-        public static final int directory_button=0x7f0b003d;
-        public static final int directory_spinner=0x7f0b003c;
+        public static final int directory_button=0x7f0b004a;
+        public static final int directory_spinner=0x7f0b0049;
         public static final int disableHome=0x7f0b0009;
+        public static final int double_star_icon=0x7f0b0061;
+        public static final int download_icon=0x7f0b0063;
+        public static final int drag_layer=0x7f0b0058;
         public static final int dropdown=0x7f0b0019;
-        public static final int edit_query=0x7f0b0030;
+        public static final int ds_text1=0x7f0b0062;
+        public static final int edit_query=0x7f0b003d;
         public static final int end=0x7f0b0010;
-        public static final int expand_activities_button=0x7f0b0026;
-        public static final int expanded_menu=0x7f0b002c;
+        public static final int expand_activities_button=0x7f0b0033;
+        public static final int expanded_menu=0x7f0b0039;
+        public static final int fit_image=0x7f0b001d;
+        public static final int free=0x7f0b001e;
         public static final int home=0x7f0b0003;
         public static final int homeAsUp=0x7f0b000a;
-        public static final int icon=0x7f0b002a;
+        public static final int icon=0x7f0b0037;
         public static final int ifRoom=0x7f0b0015;
-        public static final int image=0x7f0b0027;
-        public static final int imageView=0x7f0b0040;
-        public static final int imageView1=0x7f0b0046;
-        public static final int labelsView=0x7f0b0041;
-        public static final int labelsView2=0x7f0b004d;
-        public static final int layout=0x7f0b003e;
-        public static final int learnButton=0x7f0b0049;
+        public static final int image=0x7f0b0034;
+        public static final int imageView=0x7f0b004d;
+        public static final int imageView1=0x7f0b0059;
+        public static final int labelsView=0x7f0b004e;
+        public static final int layout=0x7f0b004b;
+        public static final int learnButton=0x7f0b005e;
         public static final int listMode=0x7f0b0006;
-        public static final int list_item=0x7f0b0029;
+        public static final int list_item=0x7f0b0036;
         public static final int middle=0x7f0b0011;
-        public static final int nameButton=0x7f0b0043;
-        public static final int nameText=0x7f0b0042;
+        public static final int nameButton=0x7f0b0050;
+        public static final int nameText=0x7f0b004f;
         public static final int never=0x7f0b0016;
         public static final int none=0x7f0b0012;
         public static final int normal=0x7f0b0007;
-        public static final int predictButton=0x7f0b004a;
-        public static final int preview=0x7f0b003f;
-        public static final int preview2=0x7f0b004b;
+        public static final int not_show=0x7f0b0024;
+        public static final int predictButton=0x7f0b005f;
+        public static final int preview=0x7f0b004c;
         public static final int progress_circular=0x7f0b0004;
         public static final int progress_horizontal=0x7f0b0005;
-        public static final int radio=0x7f0b002f;
-        public static final int search_badge=0x7f0b0032;
-        public static final int search_bar=0x7f0b0031;
-        public static final int search_button=0x7f0b0033;
-        public static final int search_close_btn=0x7f0b0038;
-        public static final int search_edit_frame=0x7f0b0034;
-        public static final int search_go_btn=0x7f0b003a;
-        public static final int search_mag_icon=0x7f0b0035;
-        public static final int search_plate=0x7f0b0036;
-        public static final int search_src_text=0x7f0b0037;
-        public static final int search_voice_btn=0x7f0b003b;
-        public static final int shortcut=0x7f0b002e;
+        public static final int radio=0x7f0b003c;
+        public static final int ratio_16_9=0x7f0b001f;
+        public static final int ratio_3_4=0x7f0b0020;
+        public static final int ratio_4_3=0x7f0b0021;
+        public static final int ratio_9_16=0x7f0b0022;
+        public static final int reduceHeight=0x7f0b0057;
+        public static final int reduceWidth=0x7f0b0055;
+        public static final int search_badge=0x7f0b003f;
+        public static final int search_bar=0x7f0b003e;
+        public static final int search_button=0x7f0b0040;
+        public static final int search_close_btn=0x7f0b0045;
+        public static final int search_edit_frame=0x7f0b0041;
+        public static final int search_go_btn=0x7f0b0047;
+        public static final int search_mag_icon=0x7f0b0042;
+        public static final int search_plate=0x7f0b0043;
+        public static final int search_src_text=0x7f0b0044;
+        public static final int search_voice_btn=0x7f0b0048;
+        public static final int shortcut=0x7f0b003b;
         public static final int showCustom=0x7f0b000b;
         public static final int showHome=0x7f0b000c;
         public static final int showTitle=0x7f0b000d;
-        public static final int split_action_bar=0x7f0b001e;
-        public static final int submit_area=0x7f0b0039;
-        public static final int surfaceView=0x7f0b0048;
-        public static final int surfaceView2=0x7f0b004c;
+        public static final int show_always=0x7f0b0025;
+        public static final int show_on_touch=0x7f0b0026;
+        public static final int split_action_bar=0x7f0b002b;
+        public static final int square=0x7f0b0023;
+        public static final int submit_area=0x7f0b0046;
+        public static final int surfaceView=0x7f0b005d;
         public static final int tabMode=0x7f0b0008;
-        public static final int title=0x7f0b002b;
-        public static final int top_action_bar=0x7f0b0020;
-        public static final int up=0x7f0b0021;
+        public static final int title=0x7f0b0038;
+        public static final int top_action_bar=0x7f0b002d;
+        public static final int up=0x7f0b002e;
         public static final int useLogo=0x7f0b000e;
-        public static final int videoView1=0x7f0b0047;
+        public static final int wglxy_bar=0x7f0b0060;
         public static final int withText=0x7f0b0017;
+        public static final int xyButton=0x7f0b0053;
     }
     public static final class integer {
         public static final int abc_max_action_buttons=0x7f090000;
@@ -929,8 +1116,9 @@ containing a value of this type.
         public static final int activity_photopre=0x7f03001b;
         public static final int activity_predict=0x7f03001c;
         public static final int activity_start=0x7f03001d;
-        public static final int main=0x7f03001e;
-        public static final int support_simple_spinner_dropdown_item=0x7f03001f;
+        public static final int extra_bar=0x7f03001e;
+        public static final int main=0x7f03001f;
+        public static final int support_simple_spinner_dropdown_item=0x7f030020;
     }
     public static final class string {
         public static final int abc_action_bar_home_description=0x7f050000;
@@ -949,9 +1137,10 @@ containing a value of this type.
         public static final int album_name=0x7f05000d;
         public static final int app_name=0x7f05000e;
         public static final int btnIntend=0x7f05000f;
-        public static final int btnIntendV=0x7f050010;
-        public static final int cannot=0x7f050011;
-        public static final int hello=0x7f050012;
+        public static final int btnIntendG=0x7f050010;
+        public static final int btnIntendV=0x7f050011;
+        public static final int cannot=0x7f050012;
+        public static final int hello=0x7f050013;
     }
     public static final class style {
         public static final int TextAppearance_AppCompat_Base_CompactMenu_Dialog=0x7f080041;
@@ -2439,5 +2628,319 @@ containing a value of this type.
           @attr name com.example.cam:paddingStart
         */
         public static final int View_paddingStart = 1;
+        /** Attributes that can be used with a scv_CropImageView.
+           <p>Includes the following attributes:</p>
+           <table>
+           <colgroup align="left" />
+           <colgroup align="left" />
+           <tr><th>Attribute</th><th>Description</th></tr>
+           <tr><td><code>{@link #scv_CropImageView_scv_animation_duration com.example.cam:scv_animation_duration}</code></td><td></td></tr>
+           <tr><td><code>{@link #scv_CropImageView_scv_animation_enabled com.example.cam:scv_animation_enabled}</code></td><td></td></tr>
+           <tr><td><code>{@link #scv_CropImageView_scv_background_color com.example.cam:scv_background_color}</code></td><td></td></tr>
+           <tr><td><code>{@link #scv_CropImageView_scv_crop_enabled com.example.cam:scv_crop_enabled}</code></td><td></td></tr>
+           <tr><td><code>{@link #scv_CropImageView_scv_crop_mode com.example.cam:scv_crop_mode}</code></td><td></td></tr>
+           <tr><td><code>{@link #scv_CropImageView_scv_frame_color com.example.cam:scv_frame_color}</code></td><td></td></tr>
+           <tr><td><code>{@link #scv_CropImageView_scv_frame_stroke_weight com.example.cam:scv_frame_stroke_weight}</code></td><td></td></tr>
+           <tr><td><code>{@link #scv_CropImageView_scv_guide_color com.example.cam:scv_guide_color}</code></td><td></td></tr>
+           <tr><td><code>{@link #scv_CropImageView_scv_guide_show_mode com.example.cam:scv_guide_show_mode}</code></td><td></td></tr>
+           <tr><td><code>{@link #scv_CropImageView_scv_guide_stroke_weight com.example.cam:scv_guide_stroke_weight}</code></td><td></td></tr>
+           <tr><td><code>{@link #scv_CropImageView_scv_handle_color com.example.cam:scv_handle_color}</code></td><td></td></tr>
+           <tr><td><code>{@link #scv_CropImageView_scv_handle_shadow_enabled com.example.cam:scv_handle_shadow_enabled}</code></td><td></td></tr>
+           <tr><td><code>{@link #scv_CropImageView_scv_handle_size com.example.cam:scv_handle_size}</code></td><td></td></tr>
+           <tr><td><code>{@link #scv_CropImageView_scv_img_src com.example.cam:scv_img_src}</code></td><td></td></tr>
+           <tr><td><code>{@link #scv_CropImageView_scv_initial_frame_scale com.example.cam:scv_initial_frame_scale}</code></td><td></td></tr>
+           <tr><td><code>{@link #scv_CropImageView_scv_min_frame_size com.example.cam:scv_min_frame_size}</code></td><td></td></tr>
+           <tr><td><code>{@link #scv_CropImageView_scv_overlay_color com.example.cam:scv_overlay_color}</code></td><td></td></tr>
+           <tr><td><code>{@link #scv_CropImageView_scv_touch_padding com.example.cam:scv_touch_padding}</code></td><td></td></tr>
+           </table>
+           @see #scv_CropImageView_scv_animation_duration
+           @see #scv_CropImageView_scv_animation_enabled
+           @see #scv_CropImageView_scv_background_color
+           @see #scv_CropImageView_scv_crop_enabled
+           @see #scv_CropImageView_scv_crop_mode
+           @see #scv_CropImageView_scv_frame_color
+           @see #scv_CropImageView_scv_frame_stroke_weight
+           @see #scv_CropImageView_scv_guide_color
+           @see #scv_CropImageView_scv_guide_show_mode
+           @see #scv_CropImageView_scv_guide_stroke_weight
+           @see #scv_CropImageView_scv_handle_color
+           @see #scv_CropImageView_scv_handle_shadow_enabled
+           @see #scv_CropImageView_scv_handle_size
+           @see #scv_CropImageView_scv_img_src
+           @see #scv_CropImageView_scv_initial_frame_scale
+           @see #scv_CropImageView_scv_min_frame_size
+           @see #scv_CropImageView_scv_overlay_color
+           @see #scv_CropImageView_scv_touch_padding
+         */
+        public static final int[] scv_CropImageView = {
+            0x7f01006e, 0x7f01006f, 0x7f010070, 0x7f010071,
+            0x7f010072, 0x7f010073, 0x7f010074, 0x7f010075,
+            0x7f010076, 0x7f010077, 0x7f010078, 0x7f010079,
+            0x7f01007a, 0x7f01007b, 0x7f01007c, 0x7f01007d,
+            0x7f01007e, 0x7f01007f
+        };
+        /**
+          <p>This symbol is the offset where the {@link com.example.cam.R.attr#scv_animation_duration}
+          attribute's value can be found in the {@link #scv_CropImageView} array.
+
+
+          <p>Must be an integer value, such as "<code>100</code>".
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+          @attr name com.example.cam:scv_animation_duration
+        */
+        public static final int scv_CropImageView_scv_animation_duration = 16;
+        /**
+          <p>This symbol is the offset where the {@link com.example.cam.R.attr#scv_animation_enabled}
+          attribute's value can be found in the {@link #scv_CropImageView} array.
+
+
+          <p>Must be a boolean value, either "<code>true</code>" or "<code>false</code>".
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+          @attr name com.example.cam:scv_animation_enabled
+        */
+        public static final int scv_CropImageView_scv_animation_enabled = 15;
+        /**
+          <p>This symbol is the offset where the {@link com.example.cam.R.attr#scv_background_color}
+          attribute's value can be found in the {@link #scv_CropImageView} array.
+
+
+          <p>May be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
+or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
+<p>May be a color value, in the form of "<code>#<i>rgb</i></code>", "<code>#<i>argb</i></code>",
+"<code>#<i>rrggbb</i></code>", or "<code>#<i>aarrggbb</i></code>".
+          @attr name com.example.cam:scv_background_color
+        */
+        public static final int scv_CropImageView_scv_background_color = 2;
+        /**
+          <p>This symbol is the offset where the {@link com.example.cam.R.attr#scv_crop_enabled}
+          attribute's value can be found in the {@link #scv_CropImageView} array.
+
+
+          <p>Must be a boolean value, either "<code>true</code>" or "<code>false</code>".
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+          @attr name com.example.cam:scv_crop_enabled
+        */
+        public static final int scv_CropImageView_scv_crop_enabled = 13;
+        /**
+          <p>This symbol is the offset where the {@link com.example.cam.R.attr#scv_crop_mode}
+          attribute's value can be found in the {@link #scv_CropImageView} array.
+
+
+          <p>Must be one of the following constant values.</p>
+<table>
+<colgroup align="left" />
+<colgroup align="left" />
+<colgroup align="left" />
+<tr><th>Constant</th><th>Value</th><th>Description</th></tr>
+<tr><td><code>fit_image</code></td><td>0</td><td></td></tr>
+<tr><td><code>ratio_4_3</code></td><td>1</td><td></td></tr>
+<tr><td><code>ratio_3_4</code></td><td>2</td><td></td></tr>
+<tr><td><code>square</code></td><td>3</td><td></td></tr>
+<tr><td><code>ratio_16_9</code></td><td>4</td><td></td></tr>
+<tr><td><code>ratio_9_16</code></td><td>5</td><td></td></tr>
+<tr><td><code>free</code></td><td>6</td><td></td></tr>
+<tr><td><code>custom</code></td><td>7</td><td></td></tr>
+<tr><td><code>circle</code></td><td>8</td><td></td></tr>
+<tr><td><code>circle_square</code></td><td>9</td><td></td></tr>
+</table>
+          @attr name com.example.cam:scv_crop_mode
+        */
+        public static final int scv_CropImageView_scv_crop_mode = 1;
+        /**
+          <p>This symbol is the offset where the {@link com.example.cam.R.attr#scv_frame_color}
+          attribute's value can be found in the {@link #scv_CropImageView} array.
+
+
+          <p>May be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
+or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
+<p>May be a color value, in the form of "<code>#<i>rgb</i></code>", "<code>#<i>argb</i></code>",
+"<code>#<i>rrggbb</i></code>", or "<code>#<i>aarrggbb</i></code>".
+          @attr name com.example.cam:scv_frame_color
+        */
+        public static final int scv_CropImageView_scv_frame_color = 4;
+        /**
+          <p>This symbol is the offset where the {@link com.example.cam.R.attr#scv_frame_stroke_weight}
+          attribute's value can be found in the {@link #scv_CropImageView} array.
+
+
+          <p>Must be a dimension value, which is a floating point number appended with a unit such as "<code>14.5sp</code>".
+Available units are: px (pixels), dp (density-independent pixels), sp (scaled pixels based on preferred font size),
+in (inches), mm (millimeters).
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+          @attr name com.example.cam:scv_frame_stroke_weight
+        */
+        public static final int scv_CropImageView_scv_frame_stroke_weight = 11;
+        /**
+          <p>This symbol is the offset where the {@link com.example.cam.R.attr#scv_guide_color}
+          attribute's value can be found in the {@link #scv_CropImageView} array.
+
+
+          <p>May be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
+or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
+<p>May be a color value, in the form of "<code>#<i>rgb</i></code>", "<code>#<i>argb</i></code>",
+"<code>#<i>rrggbb</i></code>", or "<code>#<i>aarrggbb</i></code>".
+          @attr name com.example.cam:scv_guide_color
+        */
+        public static final int scv_CropImageView_scv_guide_color = 6;
+        /**
+          <p>This symbol is the offset where the {@link com.example.cam.R.attr#scv_guide_show_mode}
+          attribute's value can be found in the {@link #scv_CropImageView} array.
+
+
+          <p>Must be one of the following constant values.</p>
+<table>
+<colgroup align="left" />
+<colgroup align="left" />
+<colgroup align="left" />
+<tr><th>Constant</th><th>Value</th><th>Description</th></tr>
+<tr><td><code>show_always</code></td><td>1</td><td></td></tr>
+<tr><td><code>show_on_touch</code></td><td>2</td><td></td></tr>
+<tr><td><code>not_show</code></td><td>3</td><td></td></tr>
+</table>
+          @attr name com.example.cam:scv_guide_show_mode
+        */
+        public static final int scv_CropImageView_scv_guide_show_mode = 7;
+        /**
+          <p>This symbol is the offset where the {@link com.example.cam.R.attr#scv_guide_stroke_weight}
+          attribute's value can be found in the {@link #scv_CropImageView} array.
+
+
+          <p>Must be a dimension value, which is a floating point number appended with a unit such as "<code>14.5sp</code>".
+Available units are: px (pixels), dp (density-independent pixels), sp (scaled pixels based on preferred font size),
+in (inches), mm (millimeters).
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+          @attr name com.example.cam:scv_guide_stroke_weight
+        */
+        public static final int scv_CropImageView_scv_guide_stroke_weight = 12;
+        /**
+          <p>This symbol is the offset where the {@link com.example.cam.R.attr#scv_handle_color}
+          attribute's value can be found in the {@link #scv_CropImageView} array.
+
+
+          <p>May be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
+or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
+<p>May be a color value, in the form of "<code>#<i>rgb</i></code>", "<code>#<i>argb</i></code>",
+"<code>#<i>rrggbb</i></code>", or "<code>#<i>aarrggbb</i></code>".
+          @attr name com.example.cam:scv_handle_color
+        */
+        public static final int scv_CropImageView_scv_handle_color = 5;
+        /**
+          <p>This symbol is the offset where the {@link com.example.cam.R.attr#scv_handle_shadow_enabled}
+          attribute's value can be found in the {@link #scv_CropImageView} array.
+
+
+          <p>Must be a boolean value, either "<code>true</code>" or "<code>false</code>".
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+          @attr name com.example.cam:scv_handle_shadow_enabled
+        */
+        public static final int scv_CropImageView_scv_handle_shadow_enabled = 17;
+        /**
+          <p>This symbol is the offset where the {@link com.example.cam.R.attr#scv_handle_size}
+          attribute's value can be found in the {@link #scv_CropImageView} array.
+
+
+          <p>Must be a dimension value, which is a floating point number appended with a unit such as "<code>14.5sp</code>".
+Available units are: px (pixels), dp (density-independent pixels), sp (scaled pixels based on preferred font size),
+in (inches), mm (millimeters).
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+          @attr name com.example.cam:scv_handle_size
+        */
+        public static final int scv_CropImageView_scv_handle_size = 8;
+        /**
+          <p>This symbol is the offset where the {@link com.example.cam.R.attr#scv_img_src}
+          attribute's value can be found in the {@link #scv_CropImageView} array.
+
+
+          <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
+or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
+          @attr name com.example.cam:scv_img_src
+        */
+        public static final int scv_CropImageView_scv_img_src = 0;
+        /**
+          <p>This symbol is the offset where the {@link com.example.cam.R.attr#scv_initial_frame_scale}
+          attribute's value can be found in the {@link #scv_CropImageView} array.
+
+
+          <p>Must be a floating point value, such as "<code>1.2</code>".
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+          @attr name com.example.cam:scv_initial_frame_scale
+        */
+        public static final int scv_CropImageView_scv_initial_frame_scale = 14;
+        /**
+          <p>This symbol is the offset where the {@link com.example.cam.R.attr#scv_min_frame_size}
+          attribute's value can be found in the {@link #scv_CropImageView} array.
+
+
+          <p>Must be a dimension value, which is a floating point number appended with a unit such as "<code>14.5sp</code>".
+Available units are: px (pixels), dp (density-independent pixels), sp (scaled pixels based on preferred font size),
+in (inches), mm (millimeters).
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+          @attr name com.example.cam:scv_min_frame_size
+        */
+        public static final int scv_CropImageView_scv_min_frame_size = 10;
+        /**
+          <p>This symbol is the offset where the {@link com.example.cam.R.attr#scv_overlay_color}
+          attribute's value can be found in the {@link #scv_CropImageView} array.
+
+
+          <p>May be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
+or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
+<p>May be a color value, in the form of "<code>#<i>rgb</i></code>", "<code>#<i>argb</i></code>",
+"<code>#<i>rrggbb</i></code>", or "<code>#<i>aarrggbb</i></code>".
+          @attr name com.example.cam:scv_overlay_color
+        */
+        public static final int scv_CropImageView_scv_overlay_color = 3;
+        /**
+          <p>This symbol is the offset where the {@link com.example.cam.R.attr#scv_touch_padding}
+          attribute's value can be found in the {@link #scv_CropImageView} array.
+
+
+          <p>Must be a dimension value, which is a floating point number appended with a unit such as "<code>14.5sp</code>".
+Available units are: px (pixels), dp (density-independent pixels), sp (scaled pixels based on preferred font size),
+in (inches), mm (millimeters).
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+          @attr name com.example.cam:scv_touch_padding
+        */
+        public static final int scv_CropImageView_scv_touch_padding = 9;
     };
 }

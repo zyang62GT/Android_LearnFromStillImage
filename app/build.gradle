@@ -6,8 +6,8 @@ android {
 
     defaultConfig {
         applicationId "com.example.cam"
-        minSdkVersion 8
-        targetSdkVersion 8
+        minSdkVersion 10
+        targetSdkVersion 19
     }
 
     buildTypes {
@@ -22,4 +22,6 @@ dependencies {
     compile files('libs/deepbelief.jar')
 
     compile 'com.android.support:appcompat-v7:19.1.0'
+
+    //compile fileTree(dir: 'libs', include: ['*.jar'])
 }

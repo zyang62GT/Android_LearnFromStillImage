@@ -17,6 +17,8 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
     <android:uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+
 
     <!--
 uses-permission android:name="android.permission.INTERNET" />
@@ -42,7 +44,6 @@ uses-permission android:name="android.permission.INTERNET" />
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.cam.NameActivity" />
         </activity>
-        <activity android:name=".PredictActivity" />
         <activity android:name=".DirectoryActivity">
         </activity>
         <activity android:name=".PhotoIntentActivity"></activity>

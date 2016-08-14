@@ -2,8 +2,10 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/LearnFromStillImage.iml" filepath="$PROJECT_DIR$/LearnFromStillImage.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Android_LearnFromStillImage.iml" filepath="$PROJECT_DIR$/Android_LearnFromStillImage.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/simplecropview/simplecropview1.iml" filepath="$PROJECT_DIR$/simplecropview/simplecropview1.iml" />
+      <module fileurl="file://$PROJECT_DIR$/simplecropview/simplecropview1.iml" filepath="$PROJECT_DIR$/simplecropview/simplecropview1.iml" />
     </modules>
   </component>
 </project>

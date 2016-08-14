@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.content.res.AssetManager;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.hardware.Camera;
@@ -23,8 +24,8 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.VideoView;
 
 import com.jetpac.deepbelief.DeepBelief;
 import com.sun.jna.Pointer;
@@ -41,22 +42,65 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 
-public class PhotoIntentActivity extends Activity {
+import android.app.Activity;
+import android.content.Intent;
+import android.net.Uri;
+import android.os.Bundle;
+
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.MotionEvent;
+import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import com.example.cam.R;
+
+
+
+
+
+
+
+public class PhotoIntentActivity extends Activity implements  View.OnTouchListener {
+
+	private DragController mDragController;   // Object that sends out drag-drop events while a view is being moved.
+	private DragLayer mDragLayer;             // The ViewGroup that supports drag-drop.
+	// Otherwise, any touch event starts a drag.
+
+	private static final int CHANGE_TOUCH_MODE_MENU_ID = Menu.FIRST;
+
+	public static final boolean Debugging = false;
+
 
 	private static final int ACTION_TAKE_PHOTO_B = 1;
 	private static final int ACTION_TAKE_PHOTO_S = 2;
-	private static final int ACTION_TAKE_VIDEO = 3;
+	private static final int ACTION_SELECT_GALLERY = 3;
 
 	private static final String BITMAP_STORAGE_KEY = "viewbitmap";
 	private static final String IMAGEVIEW_VISIBILITY_STORAGE_KEY = "imageviewvisibility";
-	private ImageView mImageView;
+	private ImageView i1;
+	private TextView i2;
+	private TextView i3;
+	private TextView tb;
+	private int leftOff = 0;
+	private int topOff = 0;
 	private Bitmap mImageBitmap;
+	String picturePath ="";
+	RelativeLayout relativeLayout;
 
-	private static final String VIDEO_STORAGE_KEY = "viewvideo";
-	private static final String VIDEOVIEW_VISIBILITY_STORAGE_KEY = "videoviewvisibility";
-	private VideoView mVideoView;
-	private Uri mVideoUri;
 
 	private String mCurrentPhotoPath;
 
@@ -71,12 +115,8 @@ public class PhotoIntentActivity extends Activity {
 	File file[] = f.listFiles();
 
 
-	private static final String TAG = "PredictActivity";
-	Preview preview;
-	Button buttonClick;
 	TextView labelsView;
-	Camera camera;
-	String fileName;
+
 	Activity act;
 	Context ctx;
 
@@ -141,8 +181,8 @@ public class PhotoIntentActivity extends Activity {
 		/* So pre-scale the target bitmap into which the file is decoded */
 
 		/* Get the size of the ImageView */
-		int targetW = mImageView.getWidth();
-		int targetH = mImageView.getHeight();
+		int targetW = i1.getWidth();
+		int targetH = i1.getHeight();
 
 		/* Get the size of the image */
 		BitmapFactory.Options bmOptions = new BitmapFactory.Options();
@@ -166,12 +206,10 @@ public class PhotoIntentActivity extends Activity {
 		Bitmap bitmap = BitmapFactory.decodeFile(mCurrentPhotoPath, bmOptions);
 		
 		/* Associate the Bitmap to the ImageView */
-		mImageView.setImageBitmap(bitmap);
+		i1.setImageBitmap(bitmap);
 		//process predictions here
 		classifyBitmap(bitmap);
-		mVideoUri = null;
-		mImageView.setVisibility(View.VISIBLE);
-		mVideoView.setVisibility(View.INVISIBLE);
+		i1.setVisibility(View.VISIBLE);
 	}
 
 	void initDeepBelief() {
@@ -260,12 +298,14 @@ public class PhotoIntentActivity extends Activity {
 		//labelsText = String.format("%s - %.2f\n",label.name, label.predictionValue);
 		//labelsText += String.format("%s - %.2f\n",label2.name, label2.predictionValue);
 		labelsText = "";
-		for(int i=0;i<10;i++){
+		//set labelsText
+
+		/*for(int i=0;i<10;i++){
 			if(i>=file.length) break;
 			PredictionLabel label = new PredictionLabel(file[i].getName().toString(),preVals[i]);
 
 			labelsText += String.format("%s - %.2f\n",label.name, label.predictionValue);
-		}
+		}*/
 		labelsView.setText(labelsText);
 	}
 
@@ -341,18 +381,13 @@ public class PhotoIntentActivity extends Activity {
 		startActivityForResult(takePictureIntent, actionCode);
 	}
 
-	private void dispatchTakeVideoIntent() {
-		Intent takeVideoIntent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
-		startActivityForResult(takeVideoIntent, ACTION_TAKE_VIDEO);
-	}
+
 
 	private void handleSmallCameraPhoto(Intent intent) {
 		Bundle extras = intent.getExtras();
 		mImageBitmap = (Bitmap) extras.get("data");
-		mImageView.setImageBitmap(mImageBitmap);
-		mVideoUri = null;
-		mImageView.setVisibility(View.VISIBLE);
-		mVideoView.setVisibility(View.INVISIBLE);
+		i1.setImageBitmap(mImageBitmap);
+		i1.setVisibility(View.VISIBLE);
 	}
 
 	private void handleBigCameraPhoto() {
@@ -366,11 +401,8 @@ public class PhotoIntentActivity extends Activity {
 	}
 
 	private void handleCameraVideo(Intent intent) {
-		mVideoUri = intent.getData();
-		mVideoView.setVideoURI(mVideoUri);
 		mImageBitmap = null;
-		mVideoView.setVisibility(View.VISIBLE);
-		mImageView.setVisibility(View.INVISIBLE);
+		i1.setVisibility(View.INVISIBLE);
 	}
 
 	Button.OnClickListener mTakePicOnClickListener =
@@ -383,24 +415,17 @@ public class PhotoIntentActivity extends Activity {
 
 
 
-	Button.OnClickListener mTakeVidOnClickListener =
-		new Button.OnClickListener() {
-		@Override
-		public void onClick(View v) {
-			dispatchTakeVideoIntent();
-		}
-	};
+
 
 	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_photopre);
+		mDragController = new DragController(this);
 
-		mImageView = (ImageView) findViewById(R.id.imageView1);
-		mVideoView = (VideoView) findViewById(R.id.videoView1);
+		i1 = (ImageView) findViewById(R.id.imageView1);
 		mImageBitmap = null;
-		mVideoUri = null;
 
 
 		Button picBtn = (Button) findViewById(R.id.btnIntend);
@@ -412,12 +437,7 @@ public class PhotoIntentActivity extends Activity {
 
 
 
-		Button vidBtn = (Button) findViewById(R.id.btnIntendV);
-		setBtnListenerOrDisable(
-				vidBtn,
-				mTakeVidOnClickListener,
-				MediaStore.ACTION_VIDEO_CAPTURE
-		);
+
 		
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.FROYO) {
 			mAlbumStorageDirFactory = new FroyoAlbumDirFactory();
@@ -433,33 +453,150 @@ public class PhotoIntentActivity extends Activity {
 		labelsView = (TextView) findViewById(R.id.labelsView);
 		labelsView.setText("");
 
+		//TextView textView = new TextView(ctx);
+		//textView.setBackgroundResource(R.drawable.bg_rectangle_with_stroke_dash);
+		//relativeLayout = (RelativeLayout) findViewById(R.id.relativeLayout);
+
+		//relativeLayout.addView(textView);
+
+		setupViews ();
+
+
+
 		initDeepBelief();
 		startPre();
 	}
 
+	public void galleryClick(View view){
+		Intent intent=new Intent();
+		intent.setAction(Intent.ACTION_PICK);//Pick an item from the data
+		intent.setType("image/*");//select from all pictures
+		startActivityForResult(intent, ACTION_SELECT_GALLERY);
+
+	}
+
+	public void xyClick(View view){
+		String text="";
+		text+=" i1.Left:";
+		text+=i1.getLeft();
+		text+=" i1.Top:";
+		text+=i1.getTop();
+		text+=" i2.Left:";
+		text+=i2.getLeft();
+		text+=" i2.Top:";
+		text+=i2.getTop();
+		text+=" i3.Left:";
+		text+=i3.getLeft();
+		text+=" i3.Top:";
+		text+=i3.getTop();
+		leftOff = i2.getLeft();
+		topOff = i2.getTop();
+		tb.setText(text);
+
+	}
+
+	public void cropClick(View view){
+
+
+	}
+
+	public void addWidthClick(View view){
+		ViewGroup.LayoutParams params2 = i2.getLayoutParams();
+		//Button new width
+		params2.width += 10;
+
+		i2.setLayoutParams(params2);
+		ViewGroup.LayoutParams params1 = i3.getLayoutParams();
+		//Button new width
+		params1.width += 10;
+
+		i3.setLayoutParams(params1);
+
+
+	}
+	public void addHeightClick(View view){
+		ViewGroup.LayoutParams params2 = i2.getLayoutParams();
+		//Button new width
+		params2.height += 10;
+
+		i2.setLayoutParams(params2);
+		ViewGroup.LayoutParams params1 = i3.getLayoutParams();
+		//Button new width
+		params1.height += 10;
+
+		i3.setLayoutParams(params1);
+
+	}
+	public void reduceWidthClick(View view){
+		ViewGroup.LayoutParams params2 = i2.getLayoutParams();
+		//Button new width
+		params2.width -= 10;
+
+		i2.setLayoutParams(params2);
+		ViewGroup.LayoutParams params1 = i3.getLayoutParams();
+		//Button new width
+		params1.width -= 10;
+
+		i3.setLayoutParams(params1);
+
+
+	}
+	public void reduceHeightClick(View view){
+		ViewGroup.LayoutParams params2 = i2.getLayoutParams();
+		//Button new width
+		params2.height -= 10;
+
+		i2.setLayoutParams(params2);
+		ViewGroup.LayoutParams params1 = i3.getLayoutParams();
+		//Button new width
+		params1.height -= 10;
+
+		i3.setLayoutParams(params1);
+
+	}
+
+
+
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		switch (requestCode) {
-		case ACTION_TAKE_PHOTO_B: {
-			if (resultCode == RESULT_OK) {
-				handleBigCameraPhoto();
-			}
-			break;
-		} // ACTION_TAKE_PHOTO_B
+			case ACTION_TAKE_PHOTO_B: {
+				if (resultCode == RESULT_OK) {
+					handleBigCameraPhoto();
+				}
+				break;
+			} // ACTION_TAKE_PHOTO_B
 
-		case ACTION_TAKE_PHOTO_S: {
-			if (resultCode == RESULT_OK) {
-				handleSmallCameraPhoto(data);
-			}
-			break;
-		} // ACTION_TAKE_PHOTO_S
+			case ACTION_TAKE_PHOTO_S: {
+				if (resultCode == RESULT_OK) {
+					handleSmallCameraPhoto(data);
+				}
+				break;
+			} // ACTION_TAKE_PHOTO_S
 
-		case ACTION_TAKE_VIDEO: {
-			if (resultCode == RESULT_OK) {
-				handleCameraVideo(data);
+
+			case ACTION_SELECT_GALLERY:{
+				if (resultCode==RESULT_OK) {//select oroginal photo from album
+					try {
+						Uri selectedImage = data.getData(); //get the uri returned by system
+						String[] filePathColumn = { MediaStore.Images.Media.DATA };
+						Cursor cursor = getContentResolver().query(selectedImage,
+								filePathColumn, null, null, null);//look for the certain photo in system
+						cursor.moveToFirst();
+						int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+						picturePath = cursor.getString(columnIndex);  //get photo path
+						cursor.close();
+						mImageBitmap= BitmapFactory.decodeFile(picturePath);
+						i1.setImageBitmap(mImageBitmap);
+						classifyBitmap(mImageBitmap);
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+				break;
 			}
-			break;
-		} // ACTION_TAKE_VIDEO
+
 		} // switch
 	}
 
@@ -467,9 +604,7 @@ public class PhotoIntentActivity extends Activity {
 	@Override
 	protected void onSaveInstanceState(Bundle outState) {
 		outState.putParcelable(BITMAP_STORAGE_KEY, mImageBitmap);
-		outState.putParcelable(VIDEO_STORAGE_KEY, mVideoUri);
-		outState.putBoolean(IMAGEVIEW_VISIBILITY_STORAGE_KEY, (mImageBitmap != null) );
-		outState.putBoolean(VIDEOVIEW_VISIBILITY_STORAGE_KEY, (mVideoUri != null) );
+		outState.putBoolean(IMAGEVIEW_VISIBILITY_STORAGE_KEY, (mImageBitmap != null));
 		super.onSaveInstanceState(outState);
 	}
 
@@ -477,17 +612,12 @@ public class PhotoIntentActivity extends Activity {
 	protected void onRestoreInstanceState(Bundle savedInstanceState) {
 		super.onRestoreInstanceState(savedInstanceState);
 		mImageBitmap = savedInstanceState.getParcelable(BITMAP_STORAGE_KEY);
-		mVideoUri = savedInstanceState.getParcelable(VIDEO_STORAGE_KEY);
-		mImageView.setImageBitmap(mImageBitmap);
-		mImageView.setVisibility(
+		i1.setImageBitmap(mImageBitmap);
+		i1.setVisibility(
 				savedInstanceState.getBoolean(IMAGEVIEW_VISIBILITY_STORAGE_KEY) ? 
 						ImageView.VISIBLE : ImageView.INVISIBLE
 		);
-		mVideoView.setVideoURI(mVideoUri);
-		mVideoView.setVisibility(
-				savedInstanceState.getBoolean(VIDEOVIEW_VISIBILITY_STORAGE_KEY) ? 
-						ImageView.VISIBLE : ImageView.INVISIBLE
-		);
+
 	}
 
 	/**
@@ -524,6 +654,154 @@ public class PhotoIntentActivity extends Activity {
 				getText(R.string.cannot).toString() + " " + btn.getText());
 			btn.setClickable(false);
 		}
+	}
+
+	public boolean onCreateOptionsMenu (Menu menu)
+	{
+		super.onCreateOptionsMenu(menu);
+
+		menu.add(0, CHANGE_TOUCH_MODE_MENU_ID, 0, "Change Touch Mode");
+		return true;
+	}
+
+	/**
+	 * Handle a click on a view. Tell the user to use a long click (press).
+	 *
+	 */
+
+
+
+	/**
+	 * Handle a click on the Wglxy views at the bottom.
+	 *
+	 */
+
+	public void onClickWglxy (View v) {
+		Intent viewIntent = new Intent ("android.intent.action.VIEW",
+				Uri.parse("http://double-star.appspot.com/blahti/ds-download.html"));
+		startActivity(viewIntent);
+
+	}
+
+
+
+
+
+	/**
+	 * Perform an action in response to a menu item being clicked.
+	 *
+	 */
+
+
+	/**
+	 * Resume the activity.
+	 */
+
+	@Override protected void onResume() {
+		super.onResume();
+
+		View v  = findViewById (R.id.wglxy_bar);
+		if (v != null) {
+			Animation anim1 = AnimationUtils.loadAnimation(this, R.anim.fade_in);
+			//anim1.setAnimationListener (new StartActivityAfterAnimation (i));
+			v.startAnimation (anim1);
+		}
+	}
+
+	/**
+	 * This is the starting point for a drag operation if mLongClickStartsDrag is false.
+	 * It looks for the down event that gets generated when a user touches the screen.
+	 * Only that initiates the drag-drop sequence.
+	 *
+	 */
+
+	public boolean onTouch (View v, MotionEvent ev)
+	{
+		// If we are configured to start only on a long click, we are not going to handle any events here.
+
+		boolean handledHere = false;
+
+		final int action = ev.getAction();
+
+		// In the situation where a long click is not needed to initiate a drag, simply start on the down event.
+		if (action == MotionEvent.ACTION_DOWN) {
+			handledHere = startDrag (v);
+			if (handledHere) v.performClick ();
+		}
+
+		return handledHere;
+	}
+
+	/**
+	 * Start dragging a view.
+	 *
+	 */
+
+	public boolean startDrag (View v)
+	{
+		// Let the DragController initiate a drag-drop sequence.
+		// I use the dragInfo to pass along the object being dragged.
+		// I'm not sure how the Launcher designers do this.
+		Object dragInfo = v;
+		mDragController.startDrag (v, mDragLayer, dragInfo, DragController.DRAG_ACTION_MOVE);
+		return true;
+	}
+
+	/**
+	 * Finds all the views we need and configure them to send click events to the activity.
+	 *
+	 */
+	private void setupViews()
+	{
+		DragController dragController = mDragController;
+
+		mDragLayer = (DragLayer) findViewById(R.id.drag_layer);
+		mDragLayer.setDragController(dragController);
+		dragController.addDropTarget(mDragLayer);
+
+		i2 = (TextView) findViewById (R.id.Text1);
+		i2.setOnTouchListener(this);
+
+		i3 = (TextView) findViewById (R.id.Text2);
+		i3.setOnTouchListener(this);
+
+
+		i1 = (ImageView) findViewById (R.id.imageView1);
+		//i1.setOnTouchListener(this);
+
+		tb = (TextView) findViewById(R.id.Textbot);
+
+
+
+
+
+
+
+
+
+	}
+
+	/**
+	 * Show a string on the screen via Toast.
+	 *
+	 * @param msg String
+	 * @return void
+	 */
+
+	public void toast (String msg)
+	{
+		Toast.makeText (getApplicationContext(), msg, Toast.LENGTH_SHORT).show ();
+	} // end toast
+
+	/**
+	 * Send a message to the debug log and display it using Toast.
+	 */
+
+	public void trace (String msg)
+	{
+		if (!Debugging) return;
+		Log.d ("PhotopreActivity", msg);
+		toast (msg);
 	}
 
 }
