@@ -92,22 +92,21 @@
         <ImageView
             android:id="@+id/imageView1"
             android:layout_weight="1"
-            android:paddingTop="16dp"
             android:paddingBottom="16dp"
-            android:paddingLeft="16dp"
             android:paddingRight="16dp"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:scaleType="fitXY"/>
         <TextView
             android:id="@+id/Text1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="30dp"
+            android:layout_height="200dp"
             android:text="1"
             android:background="@drawable/bg_rectangle_with_stroke_dash" />
         <TextView
             android:id="@+id/Text2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="30dp"
+            android:layout_height="200dp"
             android:text="2"
             android:background="@drawable/bg_rectangle_with_stroke_dash" />
 

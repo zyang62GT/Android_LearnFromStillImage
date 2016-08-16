@@ -1000,12 +1000,13 @@ containing a value of this type.
         public static final int addWidth=0x7f0b0054;
         public static final int always=0x7f0b0013;
         public static final int beginning=0x7f0b000f;
-        public static final int btnIntend=0x7f0b0051;
-        public static final int btnIntendG=0x7f0b0052;
+        public static final int btnIntend=0x7f0b0050;
+        public static final int btnIntendG=0x7f0b0051;
         public static final int checkbox=0x7f0b003a;
         public static final int circle=0x7f0b001a;
         public static final int circle_square=0x7f0b001b;
         public static final int collapseActionView=0x7f0b0014;
+        public static final int cropButton=0x7f0b0053;
         public static final int custom=0x7f0b001c;
         public static final int default_activity_button=0x7f0b0035;
         public static final int dialog=0x7f0b0018;
@@ -1028,16 +1029,15 @@ containing a value of this type.
         public static final int icon=0x7f0b0037;
         public static final int ifRoom=0x7f0b0015;
         public static final int image=0x7f0b0034;
-        public static final int imageView=0x7f0b004d;
         public static final int imageView1=0x7f0b0059;
-        public static final int labelsView=0x7f0b004e;
+        public static final int labelsView=0x7f0b004d;
         public static final int layout=0x7f0b004b;
         public static final int learnButton=0x7f0b005e;
         public static final int listMode=0x7f0b0006;
         public static final int list_item=0x7f0b0036;
         public static final int middle=0x7f0b0011;
-        public static final int nameButton=0x7f0b0050;
-        public static final int nameText=0x7f0b004f;
+        public static final int nameButton=0x7f0b004f;
+        public static final int nameText=0x7f0b004e;
         public static final int never=0x7f0b0016;
         public static final int none=0x7f0b0012;
         public static final int normal=0x7f0b0007;
@@ -1080,7 +1080,7 @@ containing a value of this type.
         public static final int useLogo=0x7f0b000e;
         public static final int wglxy_bar=0x7f0b0060;
         public static final int withText=0x7f0b0017;
-        public static final int xyButton=0x7f0b0053;
+        public static final int xyButton=0x7f0b0052;
     }
     public static final class integer {
         public static final int abc_max_action_buttons=0x7f090000;

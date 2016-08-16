@@ -9,20 +9,15 @@ import android.content.res.AssetManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.hardware.Camera;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
-import android.view.SurfaceView;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -33,6 +28,8 @@ import com.sun.jna.ptr.IntByReference;
 import com.sun.jna.ptr.PointerByReference;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -42,36 +39,17 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
-import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.net.Uri;
-import android.os.Bundle;
-import android.view.View;
-import android.widget.Button;
 
-import android.app.Activity;
-import android.content.Intent;
-import android.net.Uri;
-import android.os.Bundle;
-
-import android.util.Log;
 import android.view.Menu;
-import android.view.MenuItem;
 import android.view.MotionEvent;
-import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.cam.R;
 
-
-
-
-
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 
 public class PhotoIntentActivity extends Activity implements  View.OnTouchListener {
@@ -86,8 +64,7 @@ public class PhotoIntentActivity extends Activity implements  View.OnTouchListen
 
 
 	private static final int ACTION_TAKE_PHOTO_B = 1;
-	private static final int ACTION_TAKE_PHOTO_S = 2;
-	private static final int ACTION_SELECT_GALLERY = 3;
+	private static final int ACTION_SELECT_GALLERY = 2;
 
 	private static final String BITMAP_STORAGE_KEY = "viewbitmap";
 	private static final String IMAGEVIEW_VISIBILITY_STORAGE_KEY = "imageviewvisibility";
@@ -95,9 +72,16 @@ public class PhotoIntentActivity extends Activity implements  View.OnTouchListen
 	private TextView i2;
 	private TextView i3;
 	private TextView tb;
-	private int leftOff = 0;
-	private int topOff = 0;
 	private Bitmap mImageBitmap;
+	private Bitmap tempBitmap;
+	JSONObject jsonObj = new JSONObject();
+	JSONArray jsonArray = new JSONArray();
+
+
+	String jsonStr;
+
+
+	private int index;
 	String picturePath ="";
 	RelativeLayout relativeLayout;
 
@@ -109,7 +93,7 @@ public class PhotoIntentActivity extends Activity implements  View.OnTouchListen
 
 	private AlbumStorageDirFactory mAlbumStorageDirFactory = null;
 
-	String path = Environment.getExternalStorageDirectory().toString()+"/Documents/newFile";
+	String path = Environment.getExternalStorageDirectory().toString()+"/Pictures/newFile";
 	//Log.d("Files", "Path: " + path);
 	File f = new File(path);
 	File file[] = f.listFiles();
@@ -294,19 +278,46 @@ public class PhotoIntentActivity extends Activity implements  View.OnTouchListen
 
 		//Send predictions to predictionHandler
 		predictionHandler(predictionsValuesPointer, predictionsLength);
-		//PredictionLabel label = new PredictionLabel(file[0].getName().toString(),preVal);
-		//labelsText = String.format("%s - %.2f\n",label.name, label.predictionValue);
-		//labelsText += String.format("%s - %.2f\n",label2.name, label2.predictionValue);
-		labelsText = "";
 		//set labelsText
 
-		/*for(int i=0;i<10;i++){
-			if(i>=file.length) break;
-			PredictionLabel label = new PredictionLabel(file[i].getName().toString(),preVals[i]);
+		String predictorName = "";
 
-			labelsText += String.format("%s - %.2f\n",label.name, label.predictionValue);
-		}*/
-		labelsView.setText(labelsText);
+		JSONObject predictionResult = new JSONObject();
+
+		float max=0;
+		String trend = "";
+
+		for(int i=0;i<10;i++){
+			if(i>=file.length) break;
+			//PredictionLabel label = new PredictionLabel(file[i].getName().toString(),preVals[i]);
+
+			if(preVals[i]>max){
+				max = preVals[i];
+				predictorName = file[i].getName().toString();
+				if(predictorName.contains("TWS")||predictorName.contains("Bull")){
+					trend = "bullish";
+				}else{
+					trend = "bearish";
+				}
+			}
+
+
+			//labelsText += String.format("%s - %.2f\n",label.name, label.predictionValue);
+		}
+		if(max<0.2){
+			predictorName="NA";
+			trend = "NA";
+		}
+		try {
+			predictionResult.put("position",index);
+			predictionResult.put("type",predictorName);
+			predictionResult.put("trend",trend);
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		index++;
+		jsonArray.put(predictionResult);
+		//labelsView.setText(labelsText);
 	}
 
 	private class PredictionLabel implements Comparable<PredictionLabel> {
@@ -383,12 +394,7 @@ public class PhotoIntentActivity extends Activity implements  View.OnTouchListen
 
 
 
-	private void handleSmallCameraPhoto(Intent intent) {
-		Bundle extras = intent.getExtras();
-		mImageBitmap = (Bitmap) extras.get("data");
-		i1.setImageBitmap(mImageBitmap);
-		i1.setVisibility(View.VISIBLE);
-	}
+
 
 	private void handleBigCameraPhoto() {
 
@@ -400,10 +406,7 @@ public class PhotoIntentActivity extends Activity implements  View.OnTouchListen
 
 	}
 
-	private void handleCameraVideo(Intent intent) {
-		mImageBitmap = null;
-		i1.setVisibility(View.INVISIBLE);
-	}
+
 
 	Button.OnClickListener mTakePicOnClickListener =
 		new Button.OnClickListener() {
@@ -426,6 +429,7 @@ public class PhotoIntentActivity extends Activity implements  View.OnTouchListen
 
 		i1 = (ImageView) findViewById(R.id.imageView1);
 		mImageBitmap = null;
+		index = 1;
 
 
 		Button picBtn = (Button) findViewById(R.id.btnIntend);
@@ -477,38 +481,92 @@ public class PhotoIntentActivity extends Activity implements  View.OnTouchListen
 
 	public void xyClick(View view){
 		String text="";
-		text+=" i1.Left:";
-		text+=i1.getLeft();
-		text+=" i1.Top:";
-		text+=i1.getTop();
 		text+=" i2.Left:";
 		text+=i2.getLeft();
 		text+=" i2.Top:";
 		text+=i2.getTop();
-		text+=" i3.Left:";
-		text+=i3.getLeft();
-		text+=" i3.Top:";
-		text+=i3.getTop();
-		leftOff = i2.getLeft();
-		topOff = i2.getTop();
+		text+=" i2.Width:";
+		text+=i3.getWidth();
+		text+=" i2.Height:";
+		text+=i3.getHeight();
+		text+="W: ";
+		text+=mImageBitmap.getWidth();
 		tb.setText(text);
 
 	}
 
 	public void cropClick(View view){
+		i1.buildDrawingCache();
+		mImageBitmap = i1.getDrawingCache();
+
+		//Bitmap newBitmap=Bitmap.createBitmap(mImageBitmap,i2.getLeft(),i2.getTop(),i2.getWidth(),i2.getHeight());
+		//i1.setImageBitmap(newBitmap);
+
+		int left = i2.getLeft();
+		if(left<0) left = 0;
+
+		int top = i2.getTop();
+		if(top<0) top=0;
+		int step = i2.getWidth()/3;
+		int end = i3.getLeft();
+		while (left<end){
+			tempBitmap = Bitmap.createBitmap(mImageBitmap,left,top,i2.getWidth(),i2.getHeight());
+			i1.setImageBitmap(tempBitmap);
+
+			classifyBitmap(tempBitmap);
+			left+=step;
+		}
+
+		try {
+			jsonObj.put("Results",jsonArray);
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		jsonStr = jsonObj.toString();
+		System.out.println("jsonString: " + jsonStr);
+		File gtem = new File(getDir("PredictResult"),"result.json");
+		FileOutputStream stream = null;
+		try {
+			stream = new FileOutputStream(gtem);
+			try {
+				stream.write(jsonStr.getBytes());
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+
+
+
+
 
 
 	}
+	public void copy(File src, File dst) throws IOException {
+		InputStream in = new FileInputStream(src);
+		OutputStream out = new FileOutputStream(dst);
+
+		// Transfer bytes from in to out
+		byte[] buf = new byte[1024];
+		int len;
+		while ((len = in.read(buf)) > 0) {
+			out.write(buf, 0, len);
+		}
+		in.close();
+		out.close();
+	}
+
 
 	public void addWidthClick(View view){
 		ViewGroup.LayoutParams params2 = i2.getLayoutParams();
 		//Button new width
-		params2.width += 10;
+		params2.width += 3;
 
 		i2.setLayoutParams(params2);
 		ViewGroup.LayoutParams params1 = i3.getLayoutParams();
 		//Button new width
-		params1.width += 10;
+		params1.width += 3;
 
 		i3.setLayoutParams(params1);
 
@@ -530,12 +588,12 @@ public class PhotoIntentActivity extends Activity implements  View.OnTouchListen
 	public void reduceWidthClick(View view){
 		ViewGroup.LayoutParams params2 = i2.getLayoutParams();
 		//Button new width
-		params2.width -= 10;
+		params2.width -= 3;
 
 		i2.setLayoutParams(params2);
 		ViewGroup.LayoutParams params1 = i3.getLayoutParams();
 		//Button new width
-		params1.width -= 10;
+		params1.width -= 3;
 
 		i3.setLayoutParams(params1);
 
@@ -555,6 +613,14 @@ public class PhotoIntentActivity extends Activity implements  View.OnTouchListen
 
 	}
 
+	public File getDir(String albumName) {
+		File file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES),albumName);
+		if (!file.mkdirs()) {
+			Log.e("LOG_TAG", "Directory not created");
+		}
+		return file;
+	}
+
 
 
 	@Override
@@ -567,12 +633,7 @@ public class PhotoIntentActivity extends Activity implements  View.OnTouchListen
 				break;
 			} // ACTION_TAKE_PHOTO_B
 
-			case ACTION_TAKE_PHOTO_S: {
-				if (resultCode == RESULT_OK) {
-					handleSmallCameraPhoto(data);
-				}
-				break;
-			} // ACTION_TAKE_PHOTO_S
+
 
 
 			case ACTION_SELECT_GALLERY:{
@@ -588,7 +649,7 @@ public class PhotoIntentActivity extends Activity implements  View.OnTouchListen
 						cursor.close();
 						mImageBitmap= BitmapFactory.decodeFile(picturePath);
 						i1.setImageBitmap(mImageBitmap);
-						classifyBitmap(mImageBitmap);
+						//classifyBitmap(mImageBitmap);
 					} catch (Exception e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();

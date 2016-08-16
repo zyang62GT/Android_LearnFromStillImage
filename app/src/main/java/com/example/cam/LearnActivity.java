@@ -4,7 +4,6 @@ package com.example.cam;
  * @author Jose Davis Nidhin
  */
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -12,8 +11,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.ByteBuffer;
-import java.util.ArrayList;
-import java.util.Collections;
 
 import android.app.Activity;
 import android.content.Context;
@@ -21,31 +18,13 @@ import android.content.Intent;
 import android.content.res.AssetManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.ImageFormat;
-import android.graphics.Rect;
-import android.graphics.YuvImage;
-import android.hardware.Camera;
-import android.hardware.Camera.AutoFocusCallback;
-import android.hardware.Camera.PictureCallback;
-import android.hardware.Camera.ShutterCallback;
-import android.hardware.Camera.PreviewCallback;
-import android.hardware.Camera.Size;
 import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
-import android.view.SurfaceView;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.view.View.OnLongClickListener;
-import android.view.ViewGroup.LayoutParams;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.Button;
-import android.widget.FrameLayout;
-import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.jetpac.deepbelief.DeepBelief;
 import com.jetpac.deepbelief.DeepBelief.JPCNNLibrary;
 import com.sun.jna.Pointer;
 import com.sun.jna.ptr.IntByReference;
@@ -61,15 +40,16 @@ public class LearnActivity extends Activity {
         ePositiveLearning,
         eNegativeWaiting,
         eNegativeLearning,
+        eEnd
     };
 
 
-    Preview preview;
-    Button buttonClick;
-    TextView labelsView;
+
     String DirectoryName;
     Activity act;
     Context ctx;
+
+    TextView Label;
 
     //Pointer varaibles for jpcnn api
     Pointer networkHandle = null;
@@ -77,11 +57,9 @@ public class LearnActivity extends Activity {
     Pointer predictor = null;
 
     //Limit values for predictions
-    int kPosPreT = 50;
-    int kNegPreT = 50;
-    int kElePerPre = 4096;
+    int kPosPreT = 200;
+    int kNegPreT = 500;
 
-    float kMinSecBetPings = .05f;
 
     int posPreC;
     int negPreC;
@@ -107,6 +85,9 @@ public class LearnActivity extends Activity {
             case eNegativeLearning:
                 startPre();
                 break;
+            case eEnd:
+                finish();
+                break;
         }}
 
     public void startPosL(){
@@ -120,25 +101,32 @@ public class LearnActivity extends Activity {
         String path = Environment.getExternalStorageDirectory().toString()+"/Pictures/"+DirectoryName;
         f = new File(path);
         File file[] = f.listFiles();
-        kPosPreT = file.length;
+        //kPosPreT = file.length;
         for(int i=0;i<file.length;i++){
             Log.i("pos", path+"/"+file[i].getName().toString());
             //Bitmap bm = getBitmapFromAsset(file[i].getName().toString());
             //classifyBitmap(bm);
+            if(file[i].getName().toString().contains("neg")){
+                continue;
+            }
             File imgFile = new  File(path+"/"+file[i].getName().toString());
             if(imgFile.exists()){
                 Bitmap bm = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
-                ImageView myImage = (ImageView) findViewById(R.id.imageView);
-                myImage.setImageBitmap(bm);
+                //ImageView myImage = (ImageView) findViewById(R.id.imageView);
+                //myImage.setImageBitmap(bm);
                 classifyBitmap(bm);
+                Log.i("sssssssssssssss",path+"/neg");
             }
         }
+
+        triggerNextState();
 
 
     }
 
     public void startNegW(){
         state = state.eNegativeWaiting;
+        Log.i("sssswaitsss","/neg");
         triggerNextState();
     }
 
@@ -146,10 +134,10 @@ public class LearnActivity extends Activity {
         negPreC = 0;
         state = state.eNegativeLearning;
         //load and process negative learning images here
-        String path = Environment.getExternalStorageDirectory().toString()+"/Pictures/"+DirectoryName;
+        String path = Environment.getExternalStorageDirectory().toString()+"/Pictures/"+DirectoryName+"/neg";
         f = new File(path);
         File file[] = f.listFiles();
-        kNegPreT = file.length;
+        //kNegPreT = file.length;
         for(int i=0;i<file.length;i++){
             Log.i("neg", path+"/"+file[i].getName().toString());
             //Bitmap bm = getBitmapFromAsset(file[i].getName().toString());
@@ -157,11 +145,12 @@ public class LearnActivity extends Activity {
             File imgFile = new  File(path+"/"+file[i].getName().toString());
             if(imgFile.exists()){
                 Bitmap bm = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
-                ImageView myImage = (ImageView) findViewById(R.id.imageView);
-                myImage.setImageBitmap(bm);
+                //ImageView myImage = (ImageView) findViewById(R.id.imageView);
+               // myImage.setImageBitmap(bm);
                 classifyBitmap(bm);
             }
         }
+        triggerNextState();
     }
 
 
@@ -179,6 +168,7 @@ public class LearnActivity extends Activity {
     }
 
     public void startPre(){
+        state = state.eEnd;
         if (predictor != null){
             JPCNNLibrary.INSTANCE.jpcnn_destroy_predictor(predictor);
         }
@@ -211,6 +201,9 @@ public class LearnActivity extends Activity {
 
 
 
+
+
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -228,10 +221,11 @@ public class LearnActivity extends Activity {
 
         DirectoryName = intent.getStringExtra(DirectoryActivity.EXTRA_MESSAGE);
 
+        Label = (TextView) findViewById(R.id.labelsView);
 
 
-        labelsView = (TextView) findViewById(R.id.labelsView);
-        labelsView.setText("");
+
+
 
         initDeepBelief();
     }
@@ -252,9 +246,11 @@ public class LearnActivity extends Activity {
         String networkFile = dataDir + "/" + baseFileName;
         copyAsset(am, baseFileName, networkFile);
         networkHandle = JPCNNLibrary.INSTANCE.jpcnn_create_network(networkFile);
-
         Bitmap lenaBitmap = getBitmapFromAsset("lena.png");
         classifyBitmap(lenaBitmap);
+
+
+
     }
 
 
@@ -302,16 +298,21 @@ public class LearnActivity extends Activity {
                 break;
             case ePositiveLearning:
                 labelsText = Cast(state) + ", progress: " + posPreC*100/kPosPreT + "%";
+                Label.setText(labelsText);
                 break;
             case eNegativeWaiting:
                 labelsText = Cast(state);
+                Label.setText(labelsText);
                 break;
             case eNegativeLearning:
-                labelsText = Cast(state) + ", progress: " + negPreC*100/kNegPreT + "%";
+                labelsText = Cast(state) + ", progress: " + negPreC * 100 /kNegPreT + "%";
+                Label.setText(labelsText);
+                break;
+            case eEnd:
+                finish();
                 break;
         }
         Log.i(Cast(state), "state");
-        labelsView.setText(labelsText);
     }
     //for logging state
     public String Cast(predictionState e){
@@ -324,6 +325,8 @@ public class LearnActivity extends Activity {
                 return "eNegativeWaiting";
             case eNegativeLearning:
                 return "eNegativeLearning";
+            case eEnd:
+                return "eEnd";
         }
         return "none";
     }
@@ -408,6 +411,9 @@ public class LearnActivity extends Activity {
                 if (negPreC >= kNegPreT){
                     triggerNextState();
                 }
+                break;
+            case eEnd:
+                finish();
                 break;
         }
     }
